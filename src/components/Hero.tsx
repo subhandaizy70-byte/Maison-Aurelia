@@ -86,12 +86,12 @@ export const Hero: React.FC<HeroProps> = ({
         </div>
 
         {/* Right Column: Hero Visual Asset */}
-        <div className="lg:col-span-7 relative min-h-[460px] sm:min-h-[560px] lg:min-h-full bg-[#EAE7DF] dark:bg-[#1E1C1A] overflow-hidden">
+        <div className="lg:col-span-7 relative min-h-[460px] sm:min-h-[540px] lg:min-h-[620px] max-h-[740px] bg-[#EAE7DF] dark:bg-[#1E1C1A] overflow-hidden">
           <img
-            src="/src/assets/images/hero_luxury_fashion_model_1793507760974.jpg"
+            src="/assets/images/hero_luxury_fashion_model_1793507760974.jpg"
             alt="Maison Aurelia Autumn Winter Collection featuring the sculpted cashmere coat in Parisian apartment"
             referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] transition-transform duration-1000 ease-out hover:scale-[1.02]"
+            className="w-full h-full object-cover object-[center_22%] filter brightness-[0.98] contrast-[1.02] transition-transform duration-1000 ease-out hover:scale-[1.02]"
           />
           
           {/* Subtle measured scrim for text contrast */}

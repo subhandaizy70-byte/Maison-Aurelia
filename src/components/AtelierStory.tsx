@@ -13,9 +13,9 @@ export const AtelierStory: React.FC<AtelierStoryProps> = ({ onOpenSalonBooking }
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         
         {/* Left Column: Documentary Atelier Craft Image */}
-        <div className="lg:col-span-6 relative aspect-[4/3] sm:aspect-[16/11] bg-[#F2EFE9] dark:bg-[#1E1C1A] overflow-hidden border border-[#E5E0D5] dark:border-[#2C2925] shadow-lg">
+        <div className="lg:col-span-6 relative aspect-[4/3] lg:aspect-[5/4] max-h-[540px] bg-[#F2EFE9] dark:bg-[#1E1C1A] overflow-hidden border border-[#E5E0D5] dark:border-[#2C2925] shadow-lg">
           <img
-            src="/src/assets/images/fashion_atelier_craft_1793507763048.jpg"
+            src="/assets/images/fashion_atelier_craft_1793507763048.jpg"
             alt="Artisans hand-stitching silk in the Maison Aurelia Place Vendôme atelier"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover object-center filter brightness-[0.98] hover:scale-105 transition-transform duration-700 ease-out"

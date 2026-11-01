@@ -443,12 +443,12 @@ export const MaisonEliteSection: React.FC<MaisonEliteSectionProps> = ({
                   className="p-6 bg-[#FAF9F5] dark:bg-[#181614] border border-[#E0D9CB] dark:border-[#2C2926] flex flex-col justify-between"
                 >
                   <div>
-                    <div className="relative aspect-[16/9] overflow-hidden mb-4 bg-black/10">
+                    <div className="relative aspect-[16/10] sm:aspect-[16/9] max-h-60 overflow-hidden mb-4 bg-black/10">
                       <img
                         src={cap.previewImage}
                         alt={cap.title}
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover object-top filter brightness-[0.95]"
+                        className="w-full h-full object-cover object-[center_20%] filter brightness-[0.95]"
                       />
                       <div className="absolute top-3 left-3 bg-[#181715]/90 text-white px-2.5 py-1 text-[10px] uppercase tracking-wider font-sans-luxury">
                         Release Date: {cap.releaseDate}

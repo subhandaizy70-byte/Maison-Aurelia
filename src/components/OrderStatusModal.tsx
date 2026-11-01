@@ -65,7 +65,7 @@ export const OrderStatusModal: React.FC<OrderStatusModalProps> = ({
               productName: 'The Structured Sculptural Coat',
               size: 'FR 36 (US 4)',
               price: 3850,
-              image: '/src/assets/images/hero_luxury_fashion_model_1793507760974.jpg',
+              image: '/assets/images/hero_luxury_fashion_model_1793507760974.jpg',
               monogram: 'A.V.',
               serialNumber: `MA-MMXXVI-${cleanOrder.slice(-4)}`
             }
@@ -392,7 +392,7 @@ export const OrderStatusModal: React.FC<OrderStatusModalProps> = ({
                           src={item.image}
                           alt={item.productName}
                           referrerPolicy="no-referrer"
-                          className="w-12 h-14 object-cover object-top border border-[#D5CFC5] dark:border-[#38332E]"
+                          className="w-12 h-14 object-cover object-center border border-[#D5CFC5] dark:border-[#38332E] shrink-0"
                         />
                         <div>
                           <h6 className="font-serif-luxury text-sm text-[#181715] dark:text-[#FAF8F3] font-medium">

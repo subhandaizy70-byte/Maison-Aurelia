@@ -253,7 +253,11 @@ export const CollectionGrid: React.FC<CollectionGridProps> = ({
                       src={product.image}
                       alt={product.name}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                      className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
+                        product.category === 'shoes' || product.category === 'bags'
+                          ? 'object-center'
+                          : 'object-[center_16%]'
+                      }`}
                     />
 
                     {/* Top Floating Controls */}

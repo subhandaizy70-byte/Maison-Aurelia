@@ -138,7 +138,7 @@ export const UPCOMING_CAPSULES = [
     subtitle: 'Lumière du Marais · Architectural Poplin & Pale Cashmere',
     releaseDate: 'November 15, 2026',
     piecesCount: 14,
-    previewImage: '/src/assets/images/hero_luxury_fashion_model_1793507760974.jpg',
+    previewImage: '/assets/images/hero_luxury_fashion_model_1793507760974.jpg',
     unlockedFor: 'or' as const,
     description: 'An early release of pure Egyptian Giza cotton tunics, fluid oyster silk culottes, and deconstructed featherweight cashmere blazers.'
   },
@@ -148,7 +148,7 @@ export const UPCOMING_CAPSULES = [
     subtitle: 'Brâncuși Torques & Hand-Planished Platinum Pins',
     releaseDate: 'December 01, 2026',
     piecesCount: 6,
-    previewImage: '/src/assets/images/fashion_silk_dress_1793507762000.jpg',
+    previewImage: '/assets/images/fashion_silk_dress_1793507762000.jpg',
     unlockedFor: 'nocturne' as const,
     description: 'Six unique sculptural objects forged in the Marais workshops, set with unheated Ceylon sapphires and hand-brushed satin platinum.'
   }

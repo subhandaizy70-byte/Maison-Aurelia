@@ -144,7 +144,7 @@ export const MarketComparator: React.FC<MarketComparatorProps> = ({
                       src={item.image}
                       alt={item.itemName}
                       referrerPolicy="no-referrer"
-                      className="w-14 h-16 sm:w-16 sm:h-20 object-cover object-top border border-[#D5CFC5] dark:border-[#38332E] shrink-0"
+                      className="w-14 h-16 sm:w-16 sm:h-20 object-cover object-center border border-[#D5CFC5] dark:border-[#38332E] shrink-0"
                     />
                   )}
                   <div>

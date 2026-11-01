@@ -89,7 +89,11 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                       src={product.image}
                       alt={product.name}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover object-top hover:scale-105 transition-transform"
+                      className={`w-full h-full object-cover hover:scale-105 transition-transform ${
+                        product.category === 'shoes' || product.category === 'bags'
+                          ? 'object-center'
+                          : 'object-[center_15%]'
+                      }`}
                     />
                   </div>
 

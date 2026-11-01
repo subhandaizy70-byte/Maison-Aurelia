@@ -80,13 +80,13 @@ export const LookbookSection: React.FC<LookbookSectionProps> = ({
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
           
           {/* Main Visual Spread */}
-          <div className="lg:col-span-7 relative aspect-[3/4] sm:aspect-[4/3] lg:aspect-[4/5] bg-[#E8E3D7] dark:bg-[#1A1816] overflow-hidden border border-[#DCD5C6] dark:border-[#2E2925] shadow-lg">
+          <div className="lg:col-span-7 relative aspect-[4/5] max-h-[640px] bg-[#E8E3D7] dark:bg-[#1A1816] overflow-hidden border border-[#DCD5C6] dark:border-[#2E2925] shadow-lg">
             <img
               key={slide.id}
               src={slide.image}
               alt={slide.title}
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-top transition-opacity duration-700 animate-fade-in"
+              className="w-full h-full object-cover object-[center_20%] transition-opacity duration-700 animate-fade-in"
             />
             
             {/* Top Tag */}

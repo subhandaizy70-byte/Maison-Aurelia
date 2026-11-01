@@ -58,12 +58,16 @@ export const ProductModal: React.FC<ProductModalProps> = ({
           
           {/* Left Column: Gallery & Detail Views */}
           <div className="lg:col-span-6 bg-[#F3F0E8] dark:bg-[#1C1A17] p-6 lg:p-8 flex flex-col justify-between">
-            <div className="relative aspect-[4/5] bg-white dark:bg-black/40 overflow-hidden border border-[#E8E4DC] dark:border-[#2B2723]">
+            <div className="relative aspect-[4/5] max-h-[520px] bg-white dark:bg-black/40 overflow-hidden border border-[#E8E4DC] dark:border-[#2B2723]">
               <img
                 src={activeImage}
                 alt={product.name}
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top transition-all duration-500"
+                className={`w-full h-full object-cover transition-all duration-500 ${
+                  product.category === 'shoes' || product.category === 'bags'
+                    ? 'object-center'
+                    : 'object-[center_16%]'
+                }`}
               />
 
               {/* Numbered Edition watermark kicker */}
@@ -79,13 +83,21 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   <button
                     key={idx}
                     onClick={() => setActiveImage(img)}
-                    className={`w-16 h-20 border overflow-hidden transition-all cursor-pointer ${
+                    className={`w-16 h-20 sm:w-20 sm:h-24 border overflow-hidden transition-all cursor-pointer ${
                       activeImage === img
                         ? 'border-[#8C7853] opacity-100 ring-1 ring-[#8C7853]'
                         : 'border-[#D5CFC5] dark:border-[#38332E] opacity-70 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt="Thumbnail" className="w-full h-full object-cover object-top" />
+                    <img
+                      src={img}
+                      alt="Thumbnail"
+                      className={`w-full h-full object-cover ${
+                        product.category === 'shoes' || product.category === 'bags'
+                          ? 'object-center'
+                          : 'object-[center_20%]'
+                      }`}
+                    />
                   </button>
                 ))}
               </div>

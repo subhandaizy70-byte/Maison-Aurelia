@@ -350,7 +350,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       src={item.product.image}
                       alt={item.product.name}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover object-top"
+                      className={`w-full h-full object-cover ${
+                        item.product.category === 'shoes' || item.product.category === 'bags'
+                          ? 'object-center'
+                          : 'object-[center_15%]'
+                      }`}
                     />
                   </div>
 

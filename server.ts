@@ -203,6 +203,13 @@ TASK:
   }
 });
 
+// Static asset handling for both local dev and Render production deployment
+const publicAssetsPath = path.resolve(__dirname, 'public/assets');
+const srcAssetsPath = path.resolve(__dirname, 'src/assets');
+app.use('/assets', express.static(publicAssetsPath));
+app.use('/src/assets', express.static(srcAssetsPath));
+app.use('/src/assets', express.static(publicAssetsPath));
+
 // Vite middleware for dev or static serve for production
 const isProd = process.env.NODE_ENV === 'production';
 if (!isProd) {
