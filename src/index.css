@@ -36,3 +36,20 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(140, 120, 83, 0.4);
 }
+
+/* Maison Aurelia Luxury Styling for Embedded Alice Stylist Agent */
+#JotformAgent-01a1956134507000881cc0894ec0f64607f9 {
+  z-index: 45 !important;
+  font-family: var(--font-sans) !important;
+}
+
+#JotformAgent-01a1956134507000881cc0894ec0f64607f9 button {
+  box-shadow: 0 10px 25px -5px rgba(140, 120, 83, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease !important;
+}
+
+#JotformAgent-01a1956134507000881cc0894ec0f64607f9 button:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  box-shadow: 0 15px 30px -5px rgba(140, 120, 83, 0.4), 0 10px 12px -5px rgba(0, 0, 0, 0.15) !important;
+}
+

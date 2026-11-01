@@ -16,6 +16,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { WishlistDrawer } from './components/WishlistDrawer';
 import { SalonBookingModal } from './components/SalonBookingModal';
 import { OrderStatusModal } from './components/OrderStatusModal';
+import { MaisonStylistBot, consultAlice } from './components/MaisonStylistBot';
 
 export default function App() {
   // Theme state
@@ -155,6 +156,7 @@ export default function App() {
         onOpenSalonBooking={() => setIsSalonModalOpen(true)}
         onOpenOrderStatus={() => handleOpenOrderStatus()}
         onOpenMarketComparator={() => setIsMarketComparatorModalOpen(true)}
+        onOpenAliceBot={() => consultAlice(undefined, true)}
         isDarkMode={isDarkMode}
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
@@ -267,6 +269,12 @@ export default function App() {
       <MarketComparator
         isOpen={isMarketComparatorModalOpen}
         onClose={() => setIsMarketComparatorModalOpen(false)}
+      />
+
+      {/* Alice · Private AI Concierge & Stylist Bot */}
+      <MaisonStylistBot
+        onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+        onOpenOrderStatus={() => handleOpenOrderStatus()}
       />
 
     </div>

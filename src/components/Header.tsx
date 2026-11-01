@@ -10,6 +10,7 @@ interface HeaderProps {
   onOpenSalonBooking: () => void;
   onOpenOrderStatus: () => void;
   onOpenMarketComparator: () => void;
+  onOpenAliceBot?: () => void;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
 }
@@ -22,6 +23,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenSalonBooking,
   onOpenOrderStatus,
   onOpenMarketComparator,
+  onOpenAliceBot,
   isDarkMode,
   onToggleDarkMode,
 }) => {
@@ -54,6 +56,18 @@ export const Header: React.FC<HeaderProps> = ({
           <span>Track Order & Shipment</span>
         </button>
         <span aria-hidden="true" className="opacity-40">·</span>
+        <button
+          onClick={onOpenAliceBot}
+          className="hover:text-[#D4AF37] text-[#E0D5BE] transition-colors cursor-pointer flex items-center gap-1.5"
+          title="Consult Madame Alice · Place Vendôme Stylist"
+        >
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+          </span>
+          <span>Alice · Private Stylist</span>
+        </button>
+        <span aria-hidden="true" className="opacity-40 hidden md:inline">·</span>
         <button
           onClick={onOpenMarketComparator}
           className="hover:text-white transition-colors cursor-pointer hidden md:inline"
@@ -168,6 +182,20 @@ export const Header: React.FC<HeaderProps> = ({
                 {wishlistCount}
               </span>
             )}
+          </button>
+
+          {/* Alice · AI Concierge Trigger */}
+          <button
+            onClick={onOpenAliceBot}
+            title="Consult Alice · Private Client Advisor"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] tracking-[0.14em] uppercase font-sans-luxury text-[#8C7853] dark:text-[#C5B492] hover:text-[#181715] dark:hover:text-[#FAF8F3] bg-[#8C7853]/10 dark:bg-[#8C7853]/15 border border-[#8C7853]/30 hover:border-[#8C7853] transition-colors rounded cursor-pointer whitespace-nowrap"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <Sparkles className="w-3 h-3 text-[#8C7853]" />
+            <span className="hidden sm:inline font-medium">Alice</span>
           </button>
 
           {/* Reserve Appointment CTA */}

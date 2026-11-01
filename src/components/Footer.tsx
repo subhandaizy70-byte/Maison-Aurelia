@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
+import { consultAlice } from './MaisonStylistBot';
 
 interface FooterProps {
   onOpenSalonBooking: () => void;
@@ -116,6 +117,10 @@ export const Footer: React.FC<FooterProps> = ({
             </h5>
             <ul className="space-y-2">
               <li><a href="#maison-elite" className="hover:text-white transition-colors text-left cursor-pointer text-[#C5B492] font-medium">Maison Elite Patronage</a></li>
+              <li><button onClick={() => consultAlice(undefined, true)} className="hover:text-white transition-colors text-left cursor-pointer flex items-center gap-1.5 text-[#C5B492]">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>Alice · Private Stylist Online</span>
+              </button></li>
               <li><button onClick={onOpenSalonBooking} className="hover:text-white transition-colors text-left cursor-pointer">Private Salon Fittings</button></li>
               <li><button onClick={onOpenOrderStatus} className="hover:text-white transition-colors text-left cursor-pointer text-[#C5B492]">Track Consignment Status</button></li>
               <li><button onClick={onOpenMarketComparator} className="hover:text-white transition-colors text-left cursor-pointer">Global Luxury Price Index</button></li>

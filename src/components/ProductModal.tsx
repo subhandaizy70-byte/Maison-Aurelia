@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Product } from '../types/fashion';
 import { X, Heart, ShieldCheck, Truck, Sparkles, Check, Ruler, Info } from 'lucide-react';
 import { AiSizingAdvisor } from './AiSizingAdvisor';
+import { consultAlice } from './MaisonStylistBot';
 
 interface ProductModalProps {
   product: Product | null;
@@ -396,8 +397,21 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 </button>
               </div>
 
+              {/* Consult Stylist Alice for Bespoke Advice */}
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  consultAlice(`Bonjour Alice, I would like bespoke styling advice and sizing confirmation for the ${product.name} (€${product.price}).`, true);
+                }}
+                className="w-full mt-2.5 py-2 px-3 border border-[#D5CFC5] dark:border-[#38332E] hover:border-[#8C7853] text-[11px] uppercase tracking-[0.14em] text-[#8C7853] dark:text-[#C5B492] hover:text-[#181715] dark:hover:text-[#FAF8F3] transition-colors flex items-center justify-center gap-2 cursor-pointer bg-[#F7F4ED]/50 dark:bg-[#1E1C1A]/50 group"
+              >
+                <Sparkles className="w-3 h-3 text-[#8C7853] group-hover:rotate-12 transition-transform" />
+                <span>Consult Alice · Ask Stylist About This Piece</span>
+              </button>
+
               {/* Delivery & Assurance */}
-              <div className="mt-4 grid grid-cols-2 gap-2 text-[11px] text-[#706B63] dark:text-[#9F998F]">
+              <div className="mt-3.5 grid grid-cols-2 gap-2 text-[11px] text-[#706B63] dark:text-[#9F998F]">
                 <div className="flex items-center gap-1.5">
                   <Truck className="w-3.5 h-3.5 text-[#8C7853] shrink-0" />
                   <span>Insured Express Courier</span>
