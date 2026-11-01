@@ -1,0 +1,371 @@
+import { Product, LookbookSlide } from '../types/fashion';
+
+export const PRODUCTS: Product[] = [
+  {
+    id: 'coat-hourglass-cashmere',
+    name: 'The Structured Sculptural Coat',
+    frenchName: 'Manteau Sablier en Cachemire Fumé',
+    gender: 'femme',
+    category: 'outerwear',
+    categoryLabel: 'Outerwear',
+    price: 3850,
+    currency: 'EUR',
+    image: '/src/assets/images/hero_luxury_fashion_model_1793507760974.jpg',
+    secondaryImage: '/src/assets/images/fashion_coat_cashmere_1793507760608.jpg',
+    silhouette: 'Sculptural Hourglass Silhouette with architectural hip projection and single waist fold clasp',
+    fabric: 'Double-Faced Mongolian Cashmere (480 gsm)',
+    origin: 'Hand-tailored in Place Vendôme, Paris',
+    description: 'An architectural study in proportion and drape. Woven from unbleached Mongolian raw cashmere, this overcoat balances sharp structured shoulders with a sensuous, mathematically calibrated waist indentation. Cut with a graduated front vent and fully blind-stitched by hand over thirty-six atelier hours.',
+    composition: [
+      '100% Mongolian Virgin Cashmere',
+      'Lining: 100% Habotai Silk (Lyon, France)',
+      'Buttons: Natural Buffalo Horn hand-turned in Jura'
+    ],
+    careInstructions: 'Specialist luxury dry clean only. Store on supplied aromatic cedar hanger inside breathable canvas garment bag.',
+    editionLimit: 'Limited numbered edition of 35 pieces worldwide',
+    sizes: ['FR 34 (US 2)', 'FR 36 (US 4)', 'FR 38 (US 6)', 'FR 40 (US 8)', 'FR 42 (US 10)'],
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 'coat-homme-navy-cashmere',
+    name: 'The Sartorial Greatcoat in Navy Cashmere',
+    frenchName: 'Le Pardessus Croisé en Cachemire Nuit',
+    gender: 'homme',
+    category: 'outerwear',
+    categoryLabel: 'Outerwear',
+    price: 3950,
+    currency: 'EUR',
+    image: '/src/assets/images/fashion_mens_cashmere_coat_1793509824061.jpg',
+    silhouette: 'Peak Lapel Architectural Greatcoat with broad chest and gentle waist suppression',
+    fabric: '520gsm Triple-Fleece Mongolian Cashmere',
+    origin: 'Atelier Tailleur Homme, 14 Place Vendôme, Paris',
+    description: 'Commanding double-breasted overcoat tailored for the discerning modern gentleman. Cut with deep peak lapels, roped shoulder heads, and full floating horsehair canvas that moves in unison with the torso. Lined in pure Bemberg cupro with interior cigar and passport pockets.',
+    composition: [
+      '100% Pure Mongolian Triple-Fleece Cashmere (520 gsm)',
+      'Interlining: Natural Irish Linen & Horsehair Canvas',
+      'Buttons: Hand-carved Smoked Buffalo Horn'
+    ],
+    careInstructions: 'Dry clean only by sartorial specialist. Brush regularly with natural pig-bristle clothes brush.',
+    editionLimit: 'Curated release of 40 numbered coats',
+    sizes: ['IT 46 (US 36)', 'IT 48 (US 38)', 'IT 50 (US 40)', 'IT 52 (US 42)', 'IT 54 (US 44)'],
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 'bag-nano-knit-knot',
+    name: 'The Nano ‘Knit Knot’ Bucket Bag',
+    frenchName: 'Le Nano Noé en Tricot de Laine & Peau Lainée',
+    gender: 'universal',
+    category: 'bags',
+    categoryLabel: 'Haute Maroquinerie',
+    price: 2150,
+    currency: 'EUR',
+    image: '/src/assets/images/fashion_bag_nano_knit_knot_1793509825306.jpg',
+    secondaryImage: '/src/assets/images/fashion_bag_leather_1793507761189.jpg',
+    silhouette: 'Drawstring Nano Bucket with removable leather cross-body strap and dual top handles (13 x 16 x 10 cm)',
+    fabric: 'Textured Wool Knit, Caramel Box Cowhide & French Shearling',
+    origin: 'Place Vendôme & Asnières Workshops',
+    description: 'A cozy winter couture homage inspired by seasonal alpine bundling. Hand-knitted from soft cashmere-pink virgin wool and tactile shearling, framed with vegetable-tanned caramel cowhide leather. Finished with brushed 24k gold eyelets and a sliding drawstring cord lock with the Aurelia signature medallion.',
+    composition: [
+      'Body: 80% Virgin Wool Knit, 20% Shearling Trim',
+      'Strap & Base: 100% Tuscan Cowhide Leather',
+      'Hardware: Solid Brass electroplated in 24k Brushed Gold'
+    ],
+    careInstructions: 'Protect from precipitation and rough abrasive surfaces. Store in archival dust sleeve.',
+    editionLimit: 'Holiday Winter Capsule: Batch 02 of 50',
+    sizes: ['Nano (13 x 16 x 10 cm)'],
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 'shoes-brancusi-mule',
+    name: 'The Brâncuși Sculptural Heel Mule',
+    frenchName: 'La Mule Sculptée Talon Laiton Doré',
+    gender: 'femme',
+    category: 'shoes',
+    categoryLabel: 'Chaussures & Footwear',
+    price: 1450,
+    currency: 'EUR',
+    image: '/src/assets/images/fashion_shoes_derby_mule_1793509823708.jpg',
+    silhouette: 'Pointed Almond Toe Slip-on with 65mm Cantilevered Brass Architectural Balance Heel',
+    fabric: 'Glove-Soft French Box Calfskin & Solid Brushed Brass',
+    origin: 'Scandicci, Florence & Paris Atelier',
+    description: 'A wearable piece of sculpture named after the modern master Constantin Brâncuși. Molded from an uninterrupted vamp of buttery box calfskin with a single central seam. Supported by a weighted solid brass heel that balances kinetic weight distribution perfectly.',
+    composition: [
+      'Upper: 100% French Calfskin Nappa',
+      'Sole: Vegetable-tanned Italian leather with rubber injected tread',
+      'Heel: Solid brushed brass (65mm height)'
+    ],
+    careInstructions: 'Condition monthly with colorless luxury leather cream. Protect brass with soft cloth.',
+    editionLimit: 'Numbered run of 65 pairs',
+    sizes: ['EU 36 (US 6)', 'EU 37 (US 7)', 'EU 38 (US 8)', 'EU 39 (US 9)', 'EU 40 (US 10)', 'EU 41 (US 11)'],
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 'shoes-savile-derby',
+    name: 'The Savile Hand-Welted Goodyear Derby',
+    frenchName: 'Le Soulier Derby Cousu Goodyear Cuir Musée',
+    gender: 'homme',
+    category: 'shoes',
+    categoryLabel: 'Chaussures & Footwear',
+    price: 1650,
+    currency: 'EUR',
+    image: '/src/assets/images/fashion_shoes_derby_mule_1793509823708.jpg',
+    silhouette: 'Traditional Cap-Toe 5-Eyelet Derby with hand-beveled fiddleback waist',
+    fabric: 'Full-Grain French Museum Calf with hand-applied mahogany patina',
+    origin: 'Master Bootmakers, Paris & Northampton',
+    description: 'Constructed through a rigorous 220-step process requiring over eight weeks of shoemaking. Cut from the finest Parisian museum calf, each pair is hand-burnished with deep mahogany and umber waxes. Hand-welted Goodyear construction ensures lifetime resolability.',
+    composition: [
+      'Upper: 100% French Museum Box Calf',
+      'Sole: Oak-bark slow-tanned double leather sole (Baker of Colyton)',
+      'Lining: Natural vegetable-tanned full-grain leather'
+    ],
+    careInstructions: 'Store with supplied aromatic cedar shoe trees. Polish with beeswax and carnauba wax.',
+    editionLimit: 'Handmade series of 45 pairs annually',
+    sizes: ['EU 40 (US 7.5)', 'EU 41 (US 8.5)', 'EU 42 (US 9.5)', 'EU 43 (US 10.5)', 'EU 44 (US 11.5)', 'EU 45 (US 12.5)'],
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 'shoes-tuscan-suede-boot',
+    name: 'The Minimalist Tuscan Suede Chelsea Boot',
+    frenchName: 'La Bottine Chelsea Daim de Toscane',
+    gender: 'universal',
+    category: 'shoes',
+    categoryLabel: 'Chaussures & Footwear',
+    price: 1280,
+    currency: 'EUR',
+    image: '/src/assets/images/fashion_shoes_chelsea_boot_1793509825173.jpg',
+    silhouette: 'Clean Seamless Suede Ankle Boot with tonal elastic side gusset and low stacked heel',
+    fabric: 'Water-Repellent Tuscan Velour Suede (Santa Croce)',
+    origin: 'Artisan Workshop, Florence, Italy',
+    description: 'Crafted without lining to achieve an exceptionally soft, glove-like sensation from the first wear. The chocolate brown suede undergoes a specialized hydro-repellent treatment during tanning, shedding rain and street moisture with ease.',
+    composition: [
+      'Upper: 100% Tuscan Velour Calf Suede',
+      'Sole: Blake-stitched leather sole with inset natural rubber island',
+      'Heel: 25mm stacked leather with brass slugged heel'
+    ],
+    careInstructions: 'Brush with brass wire suede brush. Treat seasonally with water-repellent mist.',
+    editionLimit: 'Curated seasonal batch of 60 pairs',
+    sizes: ['EU 39 (US 7)', 'EU 40 (US 7.5)', 'EU 41 (US 8.5)', 'EU 42 (US 9.5)', 'EU 43 (US 10.5)', 'EU 44 (US 11.5)'],
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 'blazer-double-breasted-noir',
+    name: 'The Architectural Double-Breasted Blazer',
+    frenchName: 'Veste Croisée Laine Peignée',
+    gender: 'universal',
+    category: 'tailoring',
+    categoryLabel: 'Tailoring',
+    price: 2450,
+    currency: 'EUR',
+    image: '/src/assets/images/fashion_coat_cashmere_1793507760608.jpg',
+    secondaryImage: '/src/assets/images/hero_luxury_fashion_model_1793507760974.jpg',
+    silhouette: 'Peak Lapel Sharp Menswear Cut with softened waist suppression',
+    fabric: 'Super 160s Worsted Wool Twill (Biella, Italy)',
+    origin: 'Place Vendôme Atelier, Paris',
+    description: 'Constructed with a floating full-canvas horsehair chest piece that molds imperceptibly to the wearer over time. Deep notched peak lapels, jetted pockets, and subtle roped shoulders provide commanding architectural presence without stiffness.',
+    composition: [
+      '100% Super 160s Virgin Wool',
+      'Canvas: Natural horsehair and Irish linen interlining',
+      'Lining: 100% Cupro Bemberg',
+      'Fastenings: Smoked mother-of-pearl buttons'
+    ],
+    careInstructions: 'Specialist dry clean only. Steam softly at medium temperature.',
+    editionLimit: 'Curated seasonal release of 60 pieces',
+    sizes: ['FR 34 (US 2)', 'FR 36 (US 4)', 'FR 38 (US 6)', 'FR 40 (US 8)', 'FR 42 (US 10)'],
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 'bag-vendome-caramel',
+    name: 'The Vendôme Top-Handle Bag',
+    frenchName: 'Le Sac Vendôme Box-Calf Ambré',
+    gender: 'femme',
+    category: 'bags',
+    categoryLabel: 'Haute Maroquinerie',
+    price: 3200,
+    currency: 'EUR',
+    image: '/src/assets/images/fashion_bag_leather_1793507761189.jpg',
+    silhouette: 'Trapezoidal architectural structured top handle with detachable cross-body gold chain',
+    fabric: 'Full-Grain Tuscan Box Calfskin with matte aniline finish',
+    origin: 'Scandicci, Florence & Place Vendôme, Paris',
+    description: 'Crafted from flawless full-grain box calfskin that patinates with subtle richness over decades. Features hand-painted and polished raw edges (filleté à chaud), lined with soft suede lambskin. Accented by the Aurelia monogram clasp electroplated in 24-karat brushed satin gold.',
+    composition: [
+      'Exterior: 100% Tuscan Calfskin Leather',
+      'Interior: 100% French Lambskin Suede',
+      'Hardware: Solid brass plated with 24k brushed gold'
+    ],
+    careInstructions: 'Protect from direct moisture and extreme heat. Treat annually with neutral beeswax balm.',
+    editionLimit: 'Numbered series: Batch 04 of 80',
+    sizes: ['One Size (28cm x 21cm x 11cm)'],
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 'dress-silk-slip-champagne',
+    name: 'The Draped Bias-Cut Silk Evening Gown',
+    frenchName: 'Robe du Soir Drapée Soie Sauvage',
+    gender: 'femme',
+    category: 'gowns',
+    categoryLabel: 'Haute Gowns',
+    price: 2750,
+    currency: 'EUR',
+    image: '/src/assets/images/fashion_silk_dress_1793507762000.jpg',
+    silhouette: 'Liquid Bias-Cut Fluidity with cowl neckline and pooled puddle hem',
+    fabric: '28 Momme Heavy Mulberry Silk Charmeuse',
+    origin: 'Lyon & Place Vendôme Atelier',
+    description: 'Cut precisely on a 45-degree true bias to drape like liquid marble across the feminine form. Features an open cowl neckline that settles softly across the collarbone, slender rouleau straps, and a cascade train that follows the body in motion with effortless grace.',
+    composition: [
+      '100% Mulberry Silk Charmeuse (28 Momme)',
+      'Hand-rolled hems (roulotté main)',
+      'Zero synthetic dyes'
+    ],
+    careInstructions: 'Dry clean only by couture textile conservator. Store laid flat or in padded hanging garment bag.',
+    editionLimit: 'Bespoke run of 24 pieces',
+    sizes: ['FR 34 (US 2)', 'FR 36 (US 4)', 'FR 38 (US 6)', 'FR 40 (US 8)'],
+    inStock: true,
+    featured: true
+  },
+  {
+    id: 'jewellery-spiral-brass-torque',
+    name: 'The Sculptural Aurelia Torque Collar',
+    frenchName: 'Le Torque Sculptural Laiton Doré',
+    gender: 'universal',
+    category: 'jewellery',
+    categoryLabel: 'Objects & Jewellery',
+    price: 950,
+    currency: 'EUR',
+    image: '/src/assets/images/fashion_silk_dress_1793507762000.jpg',
+    secondaryImage: '/src/assets/images/fashion_bag_leather_1793507761189.jpg',
+    silhouette: 'Organic hand-hammered collar that sits gently along the clavicle',
+    fabric: 'Solid Artisanal Brass with 24k Matte Gold Bath',
+    origin: 'Atelier de Joaillerie, Marais, Paris',
+    description: 'Forged by hand using lost-wax casting and hand-planishing techniques. Each collar retains micro-facets from the jeweler’s hammer, giving the surface a warm, light-gathering satin luminescence inspired by Brâncuși sculptures.',
+    composition: [
+      'Solid Recycled Brass',
+      'Bath: 24k Gold Satin Finish (5 microns)',
+      'Hypoallergenic protective ceramic coat'
+    ],
+    careInstructions: 'Buff with provided microfiber jewelry cloth. Keep away from perfumes and chlorinated waters.',
+    editionLimit: 'Artisan edition of 50 signed pieces',
+    sizes: ['Universal Inner Circumference 38cm (Adjustable)'],
+    inStock: true,
+    featured: false
+  },
+  {
+    id: 'trousers-pleated-crepe-ivoire',
+    name: 'The High-Waisted Fluid Crepe Trousers',
+    frenchName: 'Pantalon Large Plissé Soie et Laine',
+    gender: 'universal',
+    category: 'tailoring',
+    categoryLabel: 'Tailoring',
+    price: 1350,
+    currency: 'EUR',
+    image: '/src/assets/images/hero_luxury_fashion_model_1793507760974.jpg',
+    secondaryImage: '/src/assets/images/fashion_coat_cashmere_1793507760608.jpg',
+    silhouette: 'High-Rise Architectural Deep Double Pleat with floor-grazing puddle hem',
+    fabric: 'Wool Crepe & Silk Weave (Biella, Italy)',
+    origin: 'Place Vendôme Atelier, Paris',
+    description: 'Engineered with double knife pleats that open with kinetic movement. A clean Hollywood waistband with concealed horn tab closure anchors the waist, while the generous leg sweep pools with effortless nonchalance over footwear.',
+    composition: [
+      '70% Fine Merino Wool, 30% Silk Crepe',
+      'Pocket lining: 100% Organic Cotton Poplin',
+      'Concealed horn button tab closure'
+    ],
+    careInstructions: 'Delicate dry clean only. Steam softly to maintain deep pleat lines.',
+    editionLimit: 'Numbered seasonal edition of 45 pieces',
+    sizes: ['FR 34 (US 2)', 'FR 36 (US 4)', 'FR 38 (US 6)', 'FR 40 (US 8)', 'FR 42 (US 10)'],
+    inStock: true,
+    featured: false
+  }
+];
+
+export const LOOKBOOK_SLIDES: LookbookSlide[] = [
+  {
+    id: 'look-01',
+    lookNumber: '01',
+    title: 'The Monolithic Silhouette',
+    season: 'Hiver MMXXVI',
+    image: '/src/assets/images/hero_luxury_fashion_model_1793507760974.jpg',
+    description: 'Charcoal sculpted cashmere hourglass overcoat layered over fluid ivory pleated silk-wool trousers. Defined by dramatic neoclassical proportions against French boiserie paneling.',
+    ensemblePieces: ['Structured Sculptural Coat', 'High-Waisted Fluid Crepe Trousers', 'Ivory Satin Pumps'],
+    modelSpecs: 'Height 179cm · Wearing Size FR 36'
+  },
+  {
+    id: 'look-02',
+    lookNumber: '02',
+    title: 'Sartorial Sovereignty (Homme)',
+    season: 'Hiver MMXXVI',
+    image: '/src/assets/images/fashion_mens_cashmere_coat_1793509824061.jpg',
+    description: 'Commanding double-breasted overcoat in 520gsm triple-fleece navy cashmere paired with dark flannel pleated trousers and hand-welted Goodyear derbies in museum mahogany calf.',
+    ensemblePieces: ['Sartorial Greatcoat in Navy Cashmere', 'Savile Hand-Welted Goodyear Derby', 'Fine Merino Turtleneck'],
+    modelSpecs: 'Height 188cm · Wearing IT 50'
+  },
+  {
+    id: 'look-03',
+    lookNumber: '03',
+    title: 'The Alpine Knit Knot & Velvet Suede',
+    season: 'Hiver MMXXVI',
+    image: '/src/assets/images/fashion_bag_nano_knit_knot_1793509825306.jpg',
+    description: 'The Nano Knit Knot bucket bag in cashmere-pink virgin wool and shearling, paired with Tuscan chocolate suede chelsea boots and brushed gold torque collar.',
+    ensemblePieces: ['The Nano ‘Knit Knot’ Bucket Bag', 'The Minimalist Tuscan Suede Chelsea Boot', 'Sculptural Aurelia Torque Collar'],
+    modelSpecs: 'Place Vendôme Winter Capsule'
+  },
+  {
+    id: 'look-04',
+    lookNumber: '04',
+    title: 'Liquid Serenity (Femme)',
+    season: 'Hiver MMXXVI',
+    image: '/src/assets/images/fashion_silk_dress_1793507762000.jpg',
+    description: 'Bias-cut champagne silk charmeuse evening gown caught in natural morning chiaroscuro, accented by the hand-forged sculptural brass torque collar and Brâncuși brass heel mules.',
+    ensemblePieces: ['Draped Bias-Cut Silk Evening Gown', 'The Brâncuși Sculptural Heel Mule', 'Sculptural Aurelia Torque Collar'],
+    modelSpecs: 'Height 178cm · Wearing Size FR 34'
+  }
+];
+
+export const SALONS = [
+  {
+    id: 'paris',
+    name: 'Salon Place Vendôme',
+    city: 'Paris',
+    address: '14 Place Vendôme, 75001 Paris, France',
+    hours: 'Mon – Sat: 10:00 – 19:30 by appointment',
+    director: 'Éléonore de Rochechouart',
+    leadSpecialist: 'Master Tailor Jean-Marc Laurent',
+    phone: '+33 1 42 68 00 14'
+  },
+  {
+    id: 'milan',
+    name: 'Palazzo Montenapoleone',
+    city: 'Milan',
+    address: 'Via Montenapoleone 8, 20121 Milano, Italy',
+    hours: 'Mon – Sat: 10:30 – 19:00 by appointment',
+    director: 'Gianluca Castiglione',
+    leadSpecialist: 'Sartorial Artisan Matteo Valli',
+    phone: '+39 02 7600 4810'
+  },
+  {
+    id: 'london',
+    name: 'Mayfair Townhouse',
+    city: 'London',
+    address: '22 Old Bond Street, Mayfair, London W1S 4PY',
+    hours: 'Mon – Sat: 10:00 – 18:30 by appointment',
+    director: 'Victoria Montgomery-Smythe',
+    leadSpecialist: 'Bespoke Cutter Alistair Finch',
+    phone: '+44 20 7493 8812'
+  },
+  {
+    id: 'newyork',
+    name: 'Madison Avenue Penthouse',
+    city: 'New York',
+    address: '740 Madison Avenue, 9th Floor, New York, NY 10065',
+    hours: 'Tue – Sat: 11:00 – 19:00 by appointment',
+    director: 'Constance Vance',
+    leadSpecialist: 'Couture Draper Helene Dupont',
+    phone: '+1 212 555 0198'
+  }
+];
