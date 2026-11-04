@@ -3,7 +3,10 @@ import { Product, CartItem } from './types/fashion';
 import { PRODUCTS } from './data/products';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { WomenSection } from './components/WomenSection';
+import { MenSection } from './components/MenSection';
 import { CollectionGrid } from './components/CollectionGrid';
+import { FragranceSection } from './components/FragranceSection';
 import { LookbookSection } from './components/LookbookSection';
 import { AtelierStory } from './components/AtelierStory';
 import { LuxeDesignSection } from './components/LuxeDesignSection';
@@ -16,9 +19,13 @@ import { CartDrawer } from './components/CartDrawer';
 import { WishlistDrawer } from './components/WishlistDrawer';
 import { SalonBookingModal } from './components/SalonBookingModal';
 import { OrderStatusModal } from './components/OrderStatusModal';
+import { AuthModal } from './components/AuthModal';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { MaisonStylistBot, consultAlice } from './components/MaisonStylistBot';
 
-export default function App() {
+function AppContent() {
+  const { savedCards, profile, recordPaymentOrder } = useAuth();
+
   // Theme state
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
@@ -65,8 +72,11 @@ export default function App() {
   // Market Comparator Modal
   const [isMarketComparatorModalOpen, setIsMarketComparatorModalOpen] = useState(false);
 
-  // Cumulative client checkout patronage addition
-  const [completedCheckoutSpend, setCompletedCheckoutSpend] = useState<number>(0);
+  // Auth / Dior-style Client Account Modal
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  // Cumulative client checkout patronage addition (initialized to €4,200 from recent LV Alpine jacket commission)
+  const [completedCheckoutSpend, setCompletedCheckoutSpend] = useState<number>(4200);
 
   // Cart operations
   const handleAddToCart = (product: Product, size: string, monogram?: string) => {
@@ -126,7 +136,17 @@ export default function App() {
   };
 
   const handleExploreCollection = () => {
-    const el = document.getElementById('collections');
+    const el = document.getElementById('collection-women') || document.getElementById('collections');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleExploreWomen = () => {
+    const el = document.getElementById('collection-women');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleExploreMen = () => {
+    const el = document.getElementById('collection-men');
     el?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -157,6 +177,7 @@ export default function App() {
         onOpenOrderStatus={() => handleOpenOrderStatus()}
         onOpenMarketComparator={() => setIsMarketComparatorModalOpen(true)}
         onOpenAliceBot={() => consultAlice(undefined, true)}
+        onOpenAuthModal={() => setIsAuthModalOpen(true)}
         isDarkMode={isDarkMode}
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
@@ -166,6 +187,8 @@ export default function App() {
         {/* Campaign Hero */}
         <Hero
           onExploreCollection={handleExploreCollection}
+          onExploreWomen={handleExploreWomen}
+          onExploreMen={handleExploreMen}
           onViewLookbook={handleViewLookbook}
           onOpenSalonBooking={() => setIsSalonModalOpen(true)}
         />
@@ -176,12 +199,29 @@ export default function App() {
           onOpenSalonBooking={() => setIsSalonModalOpen(true)}
         />
 
-        {/* Featured Collection & Filtering */}
-        <CollectionGrid
+        {/* Global Collections Anchor */}
+        <div id="collections" className="scroll-mt-18" />
+
+        {/* 1. UNIVERS FEMME · DEDICATED WOMEN'S COUTURE & FOOTWEAR SECTION */}
+        <WomenSection
           onSelectProduct={(product) => setSelectedProduct(product)}
           onQuickAdd={handleQuickAdd}
           onToggleWishlist={handleToggleWishlist}
           wishlistIds={wishlistIds}
+        />
+
+        {/* 2. UNIVERS HOMME · DEDICATED MEN'S BESPOKE TAILORING & FOOTWEAR SECTION */}
+        <MenSection
+          onSelectProduct={(product) => setSelectedProduct(product)}
+          onQuickAdd={handleQuickAdd}
+          onToggleWishlist={handleToggleWishlist}
+          wishlistIds={wishlistIds}
+        />
+
+        {/* Haute Parfumerie & Olfactory Atelier */}
+        <FragranceSection
+          onSelectProduct={(product) => setSelectedProduct(product)}
+          onOpenSalonBooking={() => setIsSalonModalOpen(true)}
         />
 
         {/* Runway & Editorial Lookbook */}
@@ -204,7 +244,11 @@ export default function App() {
         <MaisonEliteSection
           onOpenOrderStatus={(orderId) => handleOpenOrderStatus(orderId)}
           onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+          onOpenAuthModal={() => setIsAuthModalOpen(true)}
+          onSelectProduct={(product) => setSelectedProduct(product)}
           externalSpend={completedCheckoutSpend}
+          completedCheckoutSpend={completedCheckoutSpend}
+          onUpdateCheckoutSpend={(newAmount) => setCompletedCheckoutSpend(newAmount)}
         />
 
         {/* Global Salons & Appointments */}
@@ -237,8 +281,29 @@ export default function App() {
         onRemoveItem={handleRemoveItem}
         onClearCart={handleClearCart}
         onTrackOrder={(id) => handleOpenOrderStatus(id)}
-        onOrderCompleted={(order) => {
+        onOpenAuthModal={() => setIsAuthModalOpen(true)}
+        onOrderCompleted={async (order) => {
           setCompletedCheckoutSpend((prev) => prev + order.amount);
+          try {
+            const defaultCard = savedCards.find((c) => c.isDefault) || savedCards[0];
+            await recordPaymentOrder({
+              orderId: order.id,
+              customerEmail: profile?.email || 'client.vendome@maisonaurelia.co',
+              customerName: profile?.displayName || 'Client Privé',
+              totalAmount: order.amount,
+              currency: 'EUR',
+              paymentStatus: 'Settled / Confirmed',
+              paymentMethod: defaultCard ? `${defaultCard.cardBrand} (•••• ${defaultCard.last4})` : 'Carte Noire Concierge',
+              paymentReference: `PAY-TX-${order.id}`,
+              cardBrand: defaultCard?.cardBrand || 'Carte Noire Centurion',
+              cardLast4: defaultCard?.last4 || '8820',
+              itemCount: order.items.length,
+              items: order.items.join(', '),
+              shippingAddress: '14 Place Vendôme, 75001 Paris, France',
+            });
+          } catch (err) {
+            console.warn('Payment order record synchronized with local session:', err);
+          }
         }}
       />
 
@@ -271,6 +336,13 @@ export default function App() {
         onClose={() => setIsMarketComparatorModalOpen(false)}
       />
 
+      {/* Dior-Inspired Client Account & Payment Methods Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onTrackOrder={(orderId) => handleOpenOrderStatus(orderId)}
+      />
+
       {/* Alice · Private AI Concierge & Stylist Bot */}
       <MaisonStylistBot
         onOpenSalonBooking={() => setIsSalonModalOpen(true)}
@@ -278,5 +350,13 @@ export default function App() {
       />
 
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }

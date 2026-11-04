@@ -3,12 +3,16 @@ import { ArrowDown, Compass } from 'lucide-react';
 
 interface HeroProps {
   onExploreCollection: () => void;
+  onExploreWomen?: () => void;
+  onExploreMen?: () => void;
   onViewLookbook: () => void;
   onOpenSalonBooking: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({
   onExploreCollection,
+  onExploreWomen,
+  onExploreMen,
   onViewLookbook,
   onOpenSalonBooking,
 }) => {
@@ -37,21 +41,28 @@ export const Hero: React.FC<HeroProps> = ({
             </p>
           </div>
 
-          {/* Action CTAs */}
+          {/* Action CTAs: Distinct Women's & Men's Exploration */}
           <div className="py-8 space-y-4">
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <button
-                onClick={onExploreCollection}
-                className="px-7 py-3.5 text-xs uppercase tracking-[0.18em] font-sans-luxury font-medium bg-[#181715] text-[#FAF9F5] hover:bg-[#322F2A] dark:bg-[#FAF8F3] dark:text-[#181715] dark:hover:bg-white transition-colors text-center cursor-pointer"
+                onClick={onExploreWomen || onExploreCollection}
+                className="px-6 py-3.5 text-xs uppercase tracking-[0.18em] font-sans-luxury font-medium bg-[#181715] text-[#FAF9F5] hover:bg-[#322F2A] dark:bg-[#FAF8F3] dark:text-[#181715] dark:hover:bg-white transition-colors text-center cursor-pointer"
               >
-                Explore Collection
+                Univers Femme (Women)
               </button>
               
               <button
-                onClick={onViewLookbook}
-                className="px-6 py-3.5 text-xs uppercase tracking-[0.18em] font-sans-luxury font-medium border border-[#C8C2B7] dark:border-[#3D3833] text-[#181715] dark:text-[#FAF8F3] hover:border-[#181715] dark:hover:border-white transition-colors text-center cursor-pointer"
+                onClick={onExploreMen || onExploreCollection}
+                className="px-6 py-3.5 text-xs uppercase tracking-[0.18em] font-sans-luxury font-medium border border-[#181715] dark:border-white text-[#181715] dark:text-[#FAF8F3] hover:bg-[#181715] hover:text-white dark:hover:bg-white dark:hover:text-[#181715] transition-colors text-center cursor-pointer"
               >
-                Runway Lookbook
+                Univers Homme (Men)
+              </button>
+
+              <button
+                onClick={onViewLookbook}
+                className="px-5 py-3.5 text-xs uppercase tracking-[0.18em] font-sans-luxury font-medium border border-[#C8C2B7] dark:border-[#3D3833] text-[#706B63] dark:text-[#A7A096] hover:border-[#181715] dark:hover:border-white transition-colors text-center cursor-pointer"
+              >
+                Lookbook
               </button>
             </div>
 

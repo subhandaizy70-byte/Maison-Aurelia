@@ -11,8 +11,8 @@ interface CollectionGridProps {
   wishlistIds: string[];
 }
 
-type FilterCategory = 'all' | 'outerwear' | 'tailoring' | 'gowns' | 'bags' | 'shoes' | 'jewellery';
-type GenderFilter = 'all' | 'femme' | 'homme' | 'universal';
+type DepartmentFilter = 'all' | 'femme' | 'homme' | 'accessories' | 'fragrance';
+type SilhouetteFilter = 'all' | 'clothes' | 'shoes' | 'bags' | 'jewellery' | 'fragrance';
 
 export const CollectionGrid: React.FC<CollectionGridProps> = ({
   onSelectProduct,
@@ -20,39 +20,83 @@ export const CollectionGrid: React.FC<CollectionGridProps> = ({
   onToggleWishlist,
   wishlistIds,
 }) => {
-  const [selectedGender, setSelectedGender] = useState<GenderFilter>('all');
-  const [selectedCategory, setSelectedCategory] = useState<FilterCategory>('all');
+  const [selectedDepartment, setSelectedDepartment] = useState<DepartmentFilter>('all');
+  const [selectedSilhouette, setSelectedSilhouette] = useState<SilhouetteFilter>('all');
+  const [selectedBrand, setSelectedBrand] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'curated' | 'price-asc' | 'price-desc'>('curated');
   const [addedNoticeId, setAddedNoticeId] = useState<string | null>(null);
 
-  const genderOptions: { key: GenderFilter; label: string; sub: string }[] = [
-    { key: 'all', label: 'All Silhouettes', sub: 'Tous les Genres' },
-    { key: 'femme', label: 'Femme', sub: 'Haute Couture & Fine Gowns' },
-    { key: 'homme', label: 'Homme', sub: 'Sartorial Tailoring & Footwear' },
-    { key: 'universal', label: 'Universal', sub: 'Architectural & Genderless Cuts' },
+  const luxuryHouses: { key: string; label: string; badge: string }[] = [
+    { key: 'all', label: 'All Luxury Houses', badge: 'Place Vendôme & Paris' },
+    { key: 'Maison Aurelia', label: 'Maison Aurelia.co', badge: '14 Place Vendôme' },
+    { key: 'Chanel', label: 'Chanel', badge: '31 Rue Cambon' },
+    { key: 'Saint Laurent', label: 'Saint Laurent', badge: '37 Rue de Bellechasse' },
+    { key: 'Hermès', label: 'Hermès', badge: 'Faubourg Saint-Honoré' },
+    { key: 'Louis Vuitton', label: 'Louis Vuitton', badge: 'Place Vendôme & Asnières' },
+    { key: 'Christian Dior', label: 'Christian Dior', badge: '30 Avenue Montaigne' },
+    { key: 'Bottega Veneta', label: 'Bottega Veneta', badge: 'Montebello Vicentino' },
+    { key: 'Prada', label: 'Prada', badge: 'Galleria Vittorio Emanuele' },
+    { key: 'Gucci', label: 'Gucci', badge: 'Via Tornabuoni, Firenze' },
+    { key: 'Loro Piana', label: 'Loro Piana', badge: 'Quarona, Piemonte' },
+    { key: 'Givenchy', label: 'Givenchy', badge: '3 Avenue George V' },
+    { key: 'Celine', label: 'Celine', badge: '16 Rue Vivienne' },
+    { key: 'Alexander McQueen', label: 'Alexander McQueen', badge: 'Old Bond Street' },
+    { key: 'Schiaparelli', label: 'Schiaparelli', badge: '21 Place Vendôme' },
+    { key: 'Brunello Cucinelli', label: 'Brunello Cucinelli', badge: 'Solomeo, Umbria' },
+    { key: 'Valentino', label: 'Valentino', badge: 'Piazza Mignanelli' },
+    { key: 'Balenciaga', label: 'Balenciaga', badge: '10 Avenue George V' },
+    { key: "Victoria's Secret", label: "Victoria's Secret", badge: 'Atelier Gold & Runway' },
   ];
 
-  const categories: { key: FilterCategory; label: string }[] = [
-    { key: 'all', label: 'All Categories' },
-    { key: 'outerwear', label: 'Outerwear & Coats' },
-    { key: 'tailoring', label: 'Tailoring' },
-    { key: 'shoes', label: 'Chaussures (Shoes)' },
-    { key: 'bags', label: 'Maroquinerie & Knit Knot' },
-    { key: 'gowns', label: 'Haute Gowns' },
-    { key: 'jewellery', label: 'Objects & Jewellery' },
+  const departmentOptions: { key: DepartmentFilter; label: string; sub: string }[] = [
+    { key: 'all', label: 'All Departments', sub: 'Tous les Univers' },
+    { key: 'femme', label: 'Women (Femme)', sub: 'Haute Couture Gowns, Coats & Shoes' },
+    { key: 'homme', label: 'Men (Homme)', sub: 'Bespoke Tailoring & Wholecut Shoes' },
+    { key: 'accessories', label: 'Accessories', sub: 'Tuscan Leather & 24k Gold Objects' },
+    { key: 'fragrance', label: 'Fragrance', sub: 'Haute Parfumerie & Pure Flacons' },
+  ];
+
+  const silhouetteOptions: { key: SilhouetteFilter; label: string; countHint?: string }[] = [
+    { key: 'all', label: 'All Pieces' },
+    { key: 'clothes', label: 'Clothes / Vêtements' },
+    { key: 'shoes', label: 'Shoes & Boots / Souliers' },
+    { key: 'bags', label: 'Bags & Maroquinerie' },
+    { key: 'jewellery', label: 'Jewellery & Accessories' },
+    { key: 'fragrance', label: 'Perfumes / Flacons' },
   ];
 
   const filteredProducts = useMemo(() => {
     return PRODUCTS.filter((item) => {
-      // Gender filter
-      const matchesGender = selectedGender === 'all' || 
-        item.gender === selectedGender || 
-        (selectedGender === 'femme' && item.gender === 'universal') ||
-        (selectedGender === 'homme' && item.gender === 'universal');
+      // Brand filter
+      const itemBrand = item.brand || 'Maison Aurelia';
+      const matchesBrand = selectedBrand === 'all' || itemBrand.toLowerCase() === selectedBrand.toLowerCase();
 
-      // Category filter
-      const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+      // Department filter
+      let matchesDept = true;
+      if (selectedDepartment === 'femme') {
+        matchesDept = item.gender === 'femme' || item.gender === 'universal';
+      } else if (selectedDepartment === 'homme') {
+        matchesDept = item.gender === 'homme' || item.gender === 'universal';
+      } else if (selectedDepartment === 'accessories') {
+        matchesDept = item.category === 'bags' || item.category === 'jewellery';
+      } else if (selectedDepartment === 'fragrance') {
+        matchesDept = item.category === 'fragrance';
+      }
+
+      // Silhouette / Type filter
+      let matchesSilhouette = true;
+      if (selectedSilhouette === 'clothes') {
+        matchesSilhouette = ['outerwear', 'tailoring', 'gowns'].includes(item.category);
+      } else if (selectedSilhouette === 'shoes') {
+        matchesSilhouette = item.category === 'shoes';
+      } else if (selectedSilhouette === 'bags') {
+        matchesSilhouette = item.category === 'bags';
+      } else if (selectedSilhouette === 'jewellery') {
+        matchesSilhouette = item.category === 'jewellery';
+      } else if (selectedSilhouette === 'fragrance') {
+        matchesSilhouette = item.category === 'fragrance';
+      }
 
       // Search filter
       const q = searchQuery.toLowerCase().trim();
@@ -61,16 +105,17 @@ export const CollectionGrid: React.FC<CollectionGridProps> = ({
         (item.frenchName && item.frenchName.toLowerCase().includes(q)) ||
         item.fabric.toLowerCase().includes(q) ||
         item.categoryLabel.toLowerCase().includes(q) ||
-        item.description.toLowerCase().includes(q)
+        item.description.toLowerCase().includes(q) ||
+        itemBrand.toLowerCase().includes(q)
       );
 
-      return matchesGender && matchesCategory && matchesSearch;
+      return matchesBrand && matchesDept && matchesSilhouette && matchesSearch;
     }).sort((a, b) => {
       if (sortBy === 'price-asc') return a.price - b.price;
       if (sortBy === 'price-desc') return b.price - a.price;
       return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
     });
-  }, [selectedGender, selectedCategory, searchQuery, sortBy]);
+  }, [selectedBrand, selectedDepartment, selectedSilhouette, searchQuery, sortBy]);
 
   const handleQuickAddClick = (e: React.MouseEvent, product: Product) => {
     e.stopPropagation();
@@ -106,46 +151,38 @@ export const CollectionGrid: React.FC<CollectionGridProps> = ({
         </p>
       </motion.div>
 
-      {/* 1. GENDER SELECTION MODULE (Luxe Design interactive tab bar) */}
-      <div className="pt-8 pb-4">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-[11px] uppercase tracking-[0.2em] font-sans-luxury text-[#706B63] dark:text-[#A7A096] flex items-center gap-1.5 font-medium">
-            <Layers className="w-3.5 h-3.5 text-[#8C7853]" />
-            <span>Select Wardrobe Division & Gender</span>
+      {/* 0. LUXURY HOUSES & WEBSITES SELECTION (Maison Aurelia.co, Louis Vuitton, Dior, Victoria's Secret) */}
+      <div className="pt-8 pb-3">
+        <div className="flex items-center justify-between mb-2.5">
+          <span className="text-[11px] uppercase tracking-[0.2em] font-sans-luxury text-[#8C7853] dark:text-[#C5B492] flex items-center gap-1.5 font-medium">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Select Luxury House & Atelier Archive</span>
           </span>
-          <span className="text-[11px] text-[#8C7853] dark:text-[#C5B492] font-mono tabular-nums">
-            {filteredProducts.length} Silhouettes Available
+          <span className="text-[10px] text-[#706B63] dark:text-[#9F998F] uppercase tracking-wider font-mono">
+            Official Runway & Boutique Pieces with Models
           </span>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 p-1.5 bg-[#F2EDE2] dark:bg-[#1D1B18] border border-[#E0D9CB] dark:border-[#2C2926]">
-          {genderOptions.map((g) => {
-            const isSelected = selectedGender === g.key;
+        <div className="flex flex-wrap items-center gap-2">
+          {luxuryHouses.map((house) => {
+            const isSelected = selectedBrand === house.key;
             return (
               <button
-                key={g.key}
-                onClick={() => setSelectedGender(g.key)}
-                className={`relative p-3 text-left transition-all duration-300 cursor-pointer overflow-hidden ${
+                key={house.key}
+                onClick={() => setSelectedBrand(house.key)}
+                className={`px-4 py-2 text-xs uppercase tracking-wider font-sans-luxury transition-all cursor-pointer flex items-center gap-2 border ${
                   isSelected
-                    ? 'bg-[#181715] text-[#FAF9F5] dark:bg-[#FAF8F3] dark:text-[#181715] shadow-sm'
-                    : 'bg-transparent text-[#605B54] dark:text-[#A7A096] hover:bg-white/60 dark:hover:bg-white/5'
+                    ? 'bg-[#181715] text-[#FAF9F5] border-[#181715] dark:bg-[#FAF8F3] dark:text-[#181715] dark:border-white shadow-sm font-semibold'
+                    : 'bg-[#FAF9F5] dark:bg-[#1A1816] border-[#DCD6C9] dark:border-[#2C2926] text-[#605B54] dark:text-[#A7A096] hover:border-[#8C7853]'
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-serif-luxury text-sm sm:text-base font-medium">
-                    {g.label}
-                  </span>
-                  {isSelected && (
-                    <motion.span 
-                      layoutId="activeGenderDot"
-                      className="w-1.5 h-1.5 rounded-full bg-[#8C7853]" 
-                    />
-                  )}
-                </div>
-                <span className={`text-[10px] tracking-wider uppercase block mt-0.5 truncate ${
-                  isSelected ? 'opacity-80' : 'opacity-60'
+                <span>{house.label}</span>
+                <span className={`text-[9px] px-1.5 py-0.5 font-mono ${
+                  isSelected 
+                    ? 'bg-[#8C7853] text-white' 
+                    : 'bg-[#8C7853]/15 text-[#8C7853] dark:text-[#C5B492]'
                 }`}>
-                  {g.sub}
+                  {house.badge}
                 </span>
               </button>
             );
@@ -153,27 +190,85 @@ export const CollectionGrid: React.FC<CollectionGridProps> = ({
         </div>
       </div>
 
-      {/* 2. CATEGORY FILTER TABS & SEARCH */}
-      <div className="py-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        
-        {/* Segmented Filter Buttons */}
-        <div className="flex flex-wrap items-center gap-2">
-          {categories.map((cat) => {
-            const isActive = selectedCategory === cat.key;
+      {/* 1. REALM & DEPARTMENT CHOOSE OPTION (Women, Men, Accessories, Fragrance) */}
+      <div className="pt-4 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+          <span className="text-[11px] uppercase tracking-[0.2em] font-sans-luxury text-[#706B63] dark:text-[#A7A096] flex items-center gap-1.5 font-medium">
+            <Layers className="w-3.5 h-3.5 text-[#8C7853]" />
+            <span>Choose Department & Realm (Men, Women, Accessories, Fragrance)</span>
+          </span>
+          <div className="flex items-center gap-3 text-[11px]">
+            <a href="#parfumerie" className="text-[#8C7853] dark:text-[#C5B492] hover:underline font-sans-luxury uppercase tracking-wider font-semibold">
+              Dedicated Parfumerie ➔
+            </a>
+            <span className="opacity-40">·</span>
+            <a href="#lookbook" className="text-[#8C7853] dark:text-[#C5B492] hover:underline font-sans-luxury uppercase tracking-wider font-semibold">
+              Looks in Clothes ➔
+            </a>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 p-1.5 bg-[#F2EDE2] dark:bg-[#1D1B18] border border-[#E0D9CB] dark:border-[#2C2926]">
+          {departmentOptions.map((d) => {
+            const isSelected = selectedDepartment === d.key;
             return (
               <button
-                key={cat.key}
-                onClick={() => setSelectedCategory(cat.key)}
-                className={`px-3.5 py-1.5 text-xs uppercase tracking-[0.14em] font-sans-luxury transition-all whitespace-nowrap cursor-pointer ${
-                  isActive
-                    ? 'bg-[#181715] text-[#FAF9F5] dark:bg-[#FAF8F3] dark:text-[#181715] font-medium'
-                    : 'bg-[#F2EFE9] text-[#605B54] hover:bg-[#EAE5DC] dark:bg-[#1E1C1A] dark:text-[#A7A096] dark:hover:bg-[#282522]'
+                key={d.key}
+                onClick={() => setSelectedDepartment(d.key)}
+                className={`relative p-3 text-left transition-all duration-300 cursor-pointer overflow-hidden ${
+                  isSelected
+                    ? 'bg-[#181715] text-[#FAF9F5] dark:bg-[#FAF8F3] dark:text-[#181715] shadow-sm font-semibold'
+                    : 'bg-transparent text-[#605B54] dark:text-[#A7A096] hover:bg-white/60 dark:hover:bg-white/5'
                 }`}
               >
-                {cat.label}
+                <div className="flex items-center justify-between">
+                  <span className="font-serif-luxury text-sm sm:text-base font-medium">
+                    {d.label}
+                  </span>
+                  {isSelected && (
+                    <motion.span 
+                      layoutId="activeDeptDot"
+                      className="w-1.5 h-1.5 rounded-full bg-[#8C7853]" 
+                    />
+                  )}
+                </div>
+                <span className={`text-[10px] tracking-wider uppercase block mt-0.5 truncate ${
+                  isSelected ? 'opacity-90 font-medium' : 'opacity-60'
+                }`}>
+                  {d.sub}
+                </span>
               </button>
             );
           })}
+        </div>
+      </div>
+
+      {/* 2. SILHOUETTE & PRODUCT TYPE CHOOSE OPTION (Clothes, Shoes & Boots, Bags, Accessories, Fragrance) */}
+      <div className="py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-[#E8E4DC] dark:border-[#272421] pb-6">
+        
+        {/* Segmented Filter Buttons */}
+        <div className="space-y-1.5">
+          <span className="text-[10px] uppercase tracking-widest font-mono text-[#8C7853] dark:text-[#C5B492] block">
+            Choose Garment Silhouette & Item Type:
+          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            {silhouetteOptions.map((sil) => {
+              const isActive = selectedSilhouette === sil.key;
+              return (
+                <button
+                  key={sil.key}
+                  onClick={() => setSelectedSilhouette(sil.key)}
+                  className={`px-3.5 py-1.5 text-xs uppercase tracking-[0.14em] font-sans-luxury transition-all whitespace-nowrap cursor-pointer ${
+                    isActive
+                      ? 'bg-[#181715] text-[#FAF9F5] dark:bg-[#FAF8F3] dark:text-[#181715] font-semibold border border-[#181715] dark:border-white shadow-sm'
+                      : 'bg-[#F2EFE9] text-[#605B54] hover:bg-[#EAE5DC] dark:bg-[#1E1C1A] dark:text-[#A7A096] dark:hover:bg-[#282522] border border-transparent'
+                  }`}
+                >
+                  {sil.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Search & Sort Area */}
@@ -220,8 +315,8 @@ export const CollectionGrid: React.FC<CollectionGridProps> = ({
             Try switching to &ldquo;All Silhouettes&rdquo; or reset the category filters.
           </p>
           <button
-            onClick={() => { setSelectedGender('all'); setSelectedCategory('all'); setSearchQuery(''); }}
-            className="mt-4 px-5 py-2 text-xs uppercase tracking-[0.16em] bg-[#181715] text-[#FAF9F5] dark:bg-white dark:text-[#181715] hover:opacity-90"
+            onClick={() => { setSelectedDepartment('all'); setSelectedSilhouette('all'); setSelectedBrand('all'); setSearchQuery(''); }}
+            className="mt-4 px-5 py-2 text-xs uppercase tracking-[0.16em] bg-[#181715] text-[#FAF9F5] dark:bg-white dark:text-[#181715] hover:opacity-90 cursor-pointer"
           >
             Reset Filters
           </button>
@@ -279,10 +374,15 @@ export const CollectionGrid: React.FC<CollectionGridProps> = ({
                     </div>
 
                     {/* Clean unboxed text tags */}
-                    <div className="absolute top-3.5 left-3.5 z-10 flex items-center gap-1.5">
+                    <div className="absolute top-3.5 left-3.5 z-10 flex flex-wrap items-center gap-1.5">
                       <span className="text-[10px] tracking-[0.18em] uppercase font-sans-luxury text-[#181715] dark:text-[#FAF8F3] bg-[#FAF9F5]/90 dark:bg-[#181715]/90 backdrop-blur-sm px-2.5 py-1 border border-[#E8E4DC]/80 dark:border-[#38332E]">
                         {product.gender === 'femme' ? 'Femme' : product.gender === 'homme' ? 'Homme' : 'Universal'}
                       </span>
+                      {product.brand && (
+                        <span className="text-[10px] tracking-[0.16em] uppercase font-sans-luxury text-[#8C7853] bg-white/90 dark:bg-black/85 px-2 py-1 border border-[#8C7853]/40 font-medium">
+                          {product.brand}
+                        </span>
+                      )}
                       {product.id === 'bag-nano-knit-knot' && (
                         <span className="text-[10px] tracking-[0.16em] uppercase font-sans-luxury text-[#8C7853] bg-white/90 dark:bg-black/80 px-2 py-1 border border-[#8C7853]/40">
                           Winter Capsule

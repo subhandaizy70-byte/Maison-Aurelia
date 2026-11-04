@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   frenchName?: string;
   gender: 'femme' | 'homme' | 'universal';
-  category: 'outerwear' | 'tailoring' | 'gowns' | 'bags' | 'jewellery' | 'shoes';
+  category: 'outerwear' | 'tailoring' | 'gowns' | 'bags' | 'jewellery' | 'shoes' | 'fragrance';
   categoryLabel: string;
   price: number;
   currency: string;
@@ -19,6 +19,18 @@ export interface Product {
   sizes: string[];
   inStock: boolean;
   featured?: boolean;
+  brand?: string;
+  copyrightNotice?: string;
+  modelStats?: string;
+  officialUrl?: string;
+  productCode?: string;
+  olfactoryFamily?: string;
+  topNotes?: string[];
+  heartNotes?: string[];
+  baseNotes?: string[];
+  concentration?: string;
+  bottleSize?: string;
+  perfumer?: string;
 }
 
 export interface CartItem {
@@ -48,6 +60,8 @@ export interface LookbookSlide {
   description: string;
   ensemblePieces: string[];
   modelSpecs: string;
+  primaryProductId?: string;
+  productIds?: string[];
 }
 
 export interface TrackingCheckpoint {
@@ -131,7 +145,11 @@ export interface PatronPurchase {
   date: string;
   amount: number;
   items: string[];
-  status: 'Delivered' | 'In Transit' | 'Handover Scheduled';
+  status: 'Delivered' | 'In Transit' | 'Handover Scheduled' | 'Atelier Preparation' | 'Customs Cleared';
+  itemThumbnails?: string[];
+  trackingNumber?: string;
+  destinationCity?: string;
+  vaultNotes?: string;
 }
 
 export interface PrivateEvent {
@@ -147,5 +165,36 @@ export interface PrivateEvent {
   dressCode: string;
   curatorHost: string;
   rsvpStatus: 'unconfirmed' | 'attending' | 'declined';
+}
+
+export interface ConciergeMessage {
+  id: string;
+  userId: string;
+  sender: 'member' | 'stylist' | 'system';
+  stylistName?: string;
+  stylistRole?: string;
+  stylistAvatar?: string;
+  text: string;
+  referencedProduct?: {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    category: string;
+  };
+  timestamp: string;
+  isRead?: boolean;
+}
+
+export interface BoutiqueStylist {
+  id: string;
+  name: string;
+  frenchTitle: string;
+  role: string;
+  salon: string;
+  avatar: string;
+  specialties: string[];
+  status: 'Available Online' | 'In Salon Fitting' | 'Atelier Consultation';
+  bio: string;
 }
 

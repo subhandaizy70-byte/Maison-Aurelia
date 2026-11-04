@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Product } from '../types/fashion';
-import { X, Heart, ShieldCheck, Truck, Sparkles, Check, Ruler, Info } from 'lucide-react';
+import { X, Heart, ShieldCheck, Truck, Sparkles, Check, Ruler, Info, ExternalLink } from 'lucide-react';
 import { AiSizingAdvisor } from './AiSizingAdvisor';
 import { consultAlice } from './MaisonStylistBot';
 
@@ -125,6 +125,19 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 {product.name}
               </h2>
 
+              {product.brand && (
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <span className="px-2.5 py-0.5 bg-[#8C7853]/15 text-[#8C7853] dark:text-[#C5B492] text-[10px] font-sans-luxury uppercase tracking-[0.16em] font-medium border border-[#8C7853]/30">
+                    House of {product.brand}
+                  </span>
+                  {product.productCode && (
+                    <span className="text-[10px] font-mono tracking-wider text-[#787268] dark:text-[#A7A096]">
+                      Ref: {product.productCode}
+                    </span>
+                  )}
+                </div>
+              )}
+
               {product.frenchName && (
                 <p className="text-sm italic font-serif-luxury text-[#787268] dark:text-[#9A9388] pt-1">
                   {product.frenchName}
@@ -140,6 +153,36 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   EUR · Tax & Import Duties Included
                 </span>
               </div>
+
+              {product.modelStats && (
+                <div className="mt-2 text-[11px] font-sans-luxury text-[#8C7853] dark:text-[#C5B492] bg-[#FAF8F3] dark:bg-[#1E1C1A] px-2.5 py-1.5 border border-[#E5DFD4] dark:border-[#2E2A26]">
+                  <span className="font-semibold uppercase tracking-wider text-[9px] block">Editorial Runway Spec</span>
+                  <span>{product.modelStats}</span>
+                </div>
+              )}
+
+              {product.copyrightNotice && (
+                <div className="mt-2 p-2.5 bg-neutral-100 dark:bg-[#1C1A18] border border-[#E0D9CB] dark:border-[#2F2B27] text-[11px] text-[#605B54] dark:text-[#A7A096]">
+                  <div className="flex items-center justify-between mb-0.5">
+                    <span className="font-mono text-[9px] tracking-wider text-[#8C7853] uppercase font-semibold">
+                      Authentic House Attribution
+                    </span>
+                    {product.officialUrl && (
+                      <a
+                        href={product.officialUrl}
+                        target={product.officialUrl.startsWith('http') ? '_blank' : '_self'}
+                        rel={product.officialUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-[#8C7853]/15 hover:bg-[#8C7853]/25 text-[#8C7853] dark:text-[#C5B492] hover:underline font-mono text-[10px] font-medium transition-colors"
+                        title={`Open official ${product.brand || 'luxury'} website application`}
+                      >
+                        <span>{product.officialUrl.replace(/^https?:\/\/(www\.)?/, '').split('/')[0]}</span>
+                        <ExternalLink className="w-2.5 h-2.5" />
+                      </a>
+                    )}
+                  </div>
+                  <p className="text-[10px] leading-relaxed">{product.copyrightNotice}</p>
+                </div>
+              )}
 
               <p className="mt-4 text-xs sm:text-sm text-[#57534D] dark:text-[#ACA59B] leading-relaxed font-light">
                 {product.description}

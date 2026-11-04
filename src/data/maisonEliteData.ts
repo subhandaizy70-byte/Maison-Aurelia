@@ -73,16 +73,44 @@ export const INITIAL_PATRON_PURCHASES: PatronPurchase[] = [
       'The Structured Sculptural Coat (FR 36 / Monogram G.D.)',
       'The Vendôme Top-Handle Bag in Box-Calf (Ambré)'
     ],
-    status: 'In Transit'
+    status: 'In Transit',
+    itemThumbnails: [
+      '/assets/images/hero_luxury_fashion_model_1793507760974.jpg',
+      '/assets/images/fashion_bag_leather_1793507761189.jpg'
+    ],
+    trackingNumber: 'FR-PV-849201-VAL',
+    destinationCity: 'Paris · 8ème Arrondissement',
+    vaultNotes: 'Insured transit via Place Vendôme armored courier service. Tamper seal verified.'
   },
   {
     orderId: 'MA-CMD-712093',
     date: '2026-08-14',
     amount: 2750,
     items: [
-      'The Draped Bias-Cut Silk Evening Gown (Champagne)'
+      'The Draped Bias-Cut Silk Evening Gown (FR 34 / Champagne)'
     ],
-    status: 'Delivered'
+    status: 'Delivered',
+    itemThumbnails: [
+      '/assets/images/fashion_silk_dress_1793507762000.jpg'
+    ],
+    trackingNumber: 'FR-PV-712093-DEL',
+    destinationCity: 'London · Mayfair Townhouse',
+    vaultNotes: 'Delivered in archival charcoal linen storage box with cedar aromatics. Signed by patron.'
+  },
+  {
+    orderId: 'MA-CMD-604182',
+    date: '2026-05-22',
+    amount: 1450,
+    items: [
+      'The Brâncuși Sculptural Heel Mule (EU 38 / Solid Brass Balance)'
+    ],
+    status: 'Delivered',
+    itemThumbnails: [
+      '/assets/images/fashion_shoes_derby_mule_1793509823708.jpg'
+    ],
+    trackingNumber: 'FR-PV-604182-ARC',
+    destinationCity: 'Paris · Place Vendôme Salon',
+    vaultNotes: 'Handover completed in private salon following bespoke shoe fitting session.'
   }
 ];
 

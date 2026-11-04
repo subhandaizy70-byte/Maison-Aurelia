@@ -33,12 +33,21 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-[#2A2724]">
           
           <div className="lg:col-span-6 space-y-4">
-            <span className="text-2xl lg:text-3xl tracking-[0.24em] uppercase font-serif-luxury text-[#F3F0E6] block">
-              Maison Aurelia
-            </span>
-            <p className="text-xs tracking-[0.2em] uppercase font-sans-luxury text-[#C5B492]">
-              Place Vendôme · Paris · Fondée en MMXXI
-            </p>
+            <div className="flex items-center gap-3">
+              <img
+                src="/assets/images/maison_aurelia_short_logo.jpg"
+                alt="Maison Aurelia Paris Seal"
+                className="w-10 h-10 object-cover rounded border border-[#8C7853]/40 shadow-sm"
+              />
+              <div>
+                <span className="text-2xl lg:text-3xl tracking-[0.24em] uppercase font-serif-luxury text-[#F3F0E6] block">
+                  Maison Aurelia
+                </span>
+                <p className="text-[10px] tracking-[0.2em] uppercase font-sans-luxury text-[#C5B492]">
+                  Place Vendôme · Paris · Fondée en MMXXI
+                </p>
+              </div>
+            </div>
             <p className="text-sm text-[#A7A096] font-light max-w-md leading-relaxed">
               An architectural haute couture house dedicated to the slow rhythm of the singular craftsperson, noble natural fibers, and timeless silence.
             </p>
@@ -93,7 +102,8 @@ export const Footer: React.FC<FooterProps> = ({
               <li><a href="#collections" className="hover:text-white transition-colors">Outerwear & Coats</a></li>
               <li><a href="#collections" className="hover:text-white transition-colors">Savile Row Tailoring</a></li>
               <li><a href="#collections" className="hover:text-white transition-colors">Haute Silk Gowns</a></li>
-              <li><a href="#collections" className="hover:text-white transition-colors">Tuscan Maroquinerie</a></li>
+              <li><a href="#parfumerie" className="hover:text-[#C5B492] text-[#E0D5BE] transition-colors font-medium">Haute Parfumerie & Flacons</a></li>
+              <li><a href="#collections" className="hover:text-white transition-colors">Tuscan Maroquinerie & Bags</a></li>
               <li><a href="#collections" className="hover:text-white transition-colors">24k Gold Objects</a></li>
             </ul>
           </div>
@@ -132,15 +142,38 @@ export const Footer: React.FC<FooterProps> = ({
 
           <div className="space-y-3">
             <h5 className="text-[11px] uppercase tracking-[0.2em] font-sans-luxury text-[#FAF8F3] font-medium">
-              Integrity & Charter
+              Luxury Houses & Partners
             </h5>
             <ul className="space-y-2">
               <li><span className="hover:text-white transition-colors">Zero Synthetic Fibers</span></li>
               <li><span className="hover:text-white transition-colors">100% Traceable Provenance</span></li>
-              <li><span className="hover:text-white transition-colors">Non-Mulesed Cashmere</span></li>
               <li><span className="hover:text-white transition-colors">Fair Artisan Compensation</span></li>
-              <li><span className="hover:text-white transition-colors">Climate-Neutral Logistique</span></li>
             </ul>
+            <div className="pt-3 border-t border-[#2A2724] space-y-1.5">
+              <span className="text-[10px] uppercase tracking-wider text-[#C5B492] font-semibold block">Official Brand Archives</span>
+              <div className="flex flex-col gap-1 text-[11px]">
+                <a href="https://louisvuitton.com/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E0D5BE] transition-colors flex items-center gap-1">
+                  <span>Louis Vuitton (Official)</span>
+                  <span className="text-[9px] text-[#8C7853]">↗</span>
+                </a>
+                <a href="https://www.dior.com/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E0D5BE] transition-colors flex items-center gap-1">
+                  <span>Christian Dior (Official)</span>
+                  <span className="text-[9px] text-[#8C7853]">↗</span>
+                </a>
+                <a href="https://www.balenciaga.com/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E0D5BE] transition-colors flex items-center gap-1">
+                  <span>Balenciaga (Official)</span>
+                  <span className="text-[9px] text-[#8C7853]">↗</span>
+                </a>
+                <a href="https://www.victoriassecret.com/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E0D5BE] transition-colors flex items-center gap-1">
+                  <span>Victoria's Secret (Official)</span>
+                  <span className="text-[9px] text-[#8C7853]">↗</span>
+                </a>
+                <a href="https://maisonaurelia.co/" target="_blank" rel="noopener noreferrer" className="hover:text-[#C5B492] transition-colors flex items-center gap-1 font-medium">
+                  <span>Maison Aurelia.co (Official)</span>
+                  <span className="text-[9px] text-[#8C7853]">↗</span>
+                </a>
+              </div>
+            </div>
           </div>
 
         </div>

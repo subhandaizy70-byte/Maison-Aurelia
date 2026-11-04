@@ -1,6 +1,7 @@
 import React from 'react';
-import { ShoppingBag, Heart, Volume2, VolumeX, Sparkles, Moon, Sun, Truck, TrendingDown } from 'lucide-react';
+import { ShoppingBag, Heart, Volume2, VolumeX, Sparkles, Moon, Sun, Truck, TrendingDown, User, Crown } from 'lucide-react';
 import { atelierAudio } from '../utils/audio';
+import { useAuth } from '../context/AuthContext';
 
 interface HeaderProps {
   cartCount: number;
@@ -11,6 +12,7 @@ interface HeaderProps {
   onOpenOrderStatus: () => void;
   onOpenMarketComparator: () => void;
   onOpenAliceBot?: () => void;
+  onOpenAuthModal: () => void;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
 }
@@ -24,10 +26,12 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenOrderStatus,
   onOpenMarketComparator,
   onOpenAliceBot,
+  onOpenAuthModal,
   isDarkMode,
   onToggleDarkMode,
 }) => {
   const [isPlayingAudio, setIsPlayingAudio] = React.useState(false);
+  const { user, profile } = useAuth();
 
   const handleToggleAudio = () => {
     const active = atelierAudio.toggle();
@@ -40,12 +44,20 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="bg-[#1C1B19] text-[#EAE6DE] dark:bg-[#0C0B0A] py-1.5 px-4 text-center text-[11px] tracking-[0.2em] uppercase font-sans-luxury flex items-center justify-center gap-3">
         <span>Place Vendôme Salon · Autumn / Winter MMXXVI Archive</span>
         <span aria-hidden="true" className="opacity-40">·</span>
+        <button
+          onClick={onOpenAuthModal}
+          className="hover:text-[#C5B492] text-[#E0D5BE] transition-colors cursor-pointer flex items-center gap-1 font-semibold"
+        >
+          <Crown className="w-3 h-3 text-[#C5B492]" />
+          <span>{user ? `Client: ${profile?.displayName?.split(' ')[0] || 'VIP'} (${profile?.clientTier || 'Elite'})` : 'Sign In / Espace Client Privé'}</span>
+        </button>
+        <span aria-hidden="true" className="opacity-40 hidden sm:inline">·</span>
         <a
           href="#maison-elite"
           className="hover:text-[#C5B492] text-[#E0D5BE] transition-colors cursor-pointer hidden sm:flex items-center gap-1"
         >
           <Sparkles className="w-3 h-3 text-[#C5B492]" />
-          <span>Maison Elite Privileges</span>
+          <span>Maison Elite</span>
         </a>
         <span aria-hidden="true" className="opacity-40 hidden sm:inline">·</span>
         <button
@@ -53,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({
           className="underline hover:text-white transition-colors cursor-pointer flex items-center gap-1"
         >
           <Truck className="w-3 h-3 text-[#8C7853]" />
-          <span>Track Order & Shipment</span>
+          <span>Track Order</span>
         </button>
         <span aria-hidden="true" className="opacity-40">·</span>
         <button
@@ -67,33 +79,40 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
           <span>Alice · Private Stylist</span>
         </button>
-        <span aria-hidden="true" className="opacity-40 hidden md:inline">·</span>
-        <button
-          onClick={onOpenMarketComparator}
-          className="hover:text-white transition-colors cursor-pointer hidden md:inline"
-        >
-          Luxury Price Index
-        </button>
       </div>
 
-      {/* Top Bar Contract: Zone 1 (Brand) — Zone 2 (4-5 Nav Links) — Zone 3 (Primary Action & Utilities) */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-18 flex items-center justify-between gap-8">
+      {/* Top Bar Contract: Zone 1 (Brand with Short Logo) — Zone 2 (Nav Links) — Zone 3 (Utilities) */}
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-18 flex items-center justify-between gap-6">
         
-        {/* Zone 1: Single text element wordmark */}
+        {/* Zone 1: Wordmark with new Maison Aurelia Short Logo */}
         <a
           href="/"
-          className="text-2xl lg:text-[26px] tracking-[0.22em] uppercase font-serif-luxury text-[#181715] dark:text-[#F3F0E6] whitespace-nowrap shrink-0 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2.5 hover:opacity-85 transition-opacity shrink-0"
+          title="Maison Aurelia · 14 Place Vendôme Paris"
         >
-          Maison Aurelia
+          <img
+            src="/assets/images/maison_aurelia_short_logo.jpg"
+            alt="Maison Aurelia Paris"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-[#C5B492]/80 object-cover shadow-sm"
+          />
+          <span className="text-xl sm:text-2xl lg:text-[25px] tracking-[0.22em] uppercase font-serif-luxury text-[#181715] dark:text-[#F3F0E6] whitespace-nowrap">
+            Maison Aurelia
+          </span>
         </a>
 
-        {/* Zone 2: Clean single-line text navigation links */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-[13px] tracking-[0.16em] uppercase font-sans-luxury text-[#605B54] dark:text-[#A7A096]">
+        {/* Zone 2: Navigation Links with distinct Femme and Homme sections */}
+        <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-[12px] lg:text-[13px] tracking-[0.16em] uppercase font-sans-luxury text-[#605B54] dark:text-[#A7A096]">
           <a
-            href="#collections"
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0"
+            href="#collection-women"
+            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] text-[#8C7853] dark:text-[#C5B492] font-semibold transition-colors whitespace-nowrap shrink-0 flex items-center gap-1"
           >
-            Collections
+            <span>Femme (Women)</span>
+          </a>
+          <a
+            href="#collection-men"
+            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] text-[#8C7853] dark:text-[#C5B492] font-semibold transition-colors whitespace-nowrap shrink-0 flex items-center gap-1"
+          >
+            <span>Homme (Men)</span>
           </a>
           <a
             href="#lookbook"
@@ -102,23 +121,17 @@ export const Header: React.FC<HeaderProps> = ({
             Lookbook
           </a>
           <a
+            href="#parfumerie"
+            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0"
+          >
+            Parfumerie
+          </a>
+          <a
             href="#maison-elite"
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] text-[#8C7853] dark:text-[#C5B492] font-medium transition-colors whitespace-nowrap shrink-0"
+            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0"
           >
             Maison Elite
           </a>
-          <a
-            href="#savoir-faire"
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0"
-          >
-            Savoir-Faire
-          </a>
-          <button
-            onClick={onOpenOrderStatus}
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0 uppercase cursor-pointer"
-          >
-            Order Status
-          </button>
           <button
             onClick={onOpenMarketComparator}
             className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0 uppercase cursor-pointer"
@@ -127,8 +140,20 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         </nav>
 
-        {/* Zone 3: Actions & Bag */}
-        <div className="flex items-center gap-2.5 sm:gap-4 shrink-0">
+        {/* Zone 3: Actions, Account & Bag */}
+        <div className="flex items-center gap-2 sm:gap-3.5 shrink-0">
+          
+          {/* Dior-style Client Account / Login Trigger */}
+          <button
+            onClick={onOpenAuthModal}
+            title={user ? 'Mon Compte Client & Historique de Paiement' : 'Sign In / Register Account'}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] uppercase tracking-wider font-sans-luxury border border-[#C8C2B7] dark:border-[#38332E] hover:border-[#8C7853] text-[#181715] dark:text-[#FAF8F3] transition-colors rounded cursor-pointer bg-[#FAF9F5]/70 dark:bg-[#181614]/70"
+          >
+            <User className="w-3.5 h-3.5 text-[#8C7853]" />
+            <span className="hidden sm:inline">
+              {user ? (profile?.displayName?.split(' ')[0] || 'Compte') : 'Sign In'}
+            </span>
+          </button>
           
           {/* Subtle Atelier Ambiance Sound Toggle */}
           <button

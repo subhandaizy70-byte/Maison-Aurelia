@@ -232,11 +232,28 @@ export const MarketComparator: React.FC<MarketComparatorProps> = ({
                       <tbody className="divide-y divide-[#E6E1D8] dark:divide-[#272421]">
                         {item.platforms.map((plat, idx) => {
                           const isLowest = plat.price === item.lowestFoundPrice;
+                          const rawHint = plat.directUrlHint || '';
+                          const isInternal = rawHint.startsWith('maison-aurelia.paris') || rawHint.startsWith('maisonaurelia.co');
+                          const platformUrl = isInternal
+                            ? '#collections'
+                            : rawHint.startsWith('http')
+                            ? rawHint
+                            : `https://${rawHint}`;
+
                           return (
                             <tr key={idx} className={isLowest ? 'bg-[#8C7853]/10 font-medium' : ''}>
-                              <td className="py-2.5 text-[#181715] dark:text-[#FAF8F3] font-medium flex items-center gap-1.5">
-                                {isLowest && <CheckCircle2 className="w-3.5 h-3.5 text-[#8C7853]" />}
-                                <span>{plat.platformName}</span>
+                              <td className="py-2.5 text-[#181715] dark:text-[#FAF8F3] font-medium">
+                                <a
+                                  href={platformUrl}
+                                  target={isInternal ? '_self' : '_blank'}
+                                  rel={isInternal ? undefined : 'noopener noreferrer'}
+                                  className="hover:text-[#8C7853] dark:hover:text-[#C5B492] hover:underline transition-colors flex items-center gap-1.5 group cursor-pointer"
+                                  title={`Open ${plat.platformName} live platform application`}
+                                >
+                                  {isLowest && <CheckCircle2 className="w-3.5 h-3.5 text-[#8C7853] shrink-0" />}
+                                  <span className="group-hover:text-[#8C7853] dark:group-hover:text-[#C5B492] transition-colors">{plat.platformName}</span>
+                                  <ExternalLink className="w-2.5 h-2.5 opacity-40 group-hover:opacity-100 transition-opacity text-[#8C7853] shrink-0" />
+                                </a>
                               </td>
                               <td className="py-2.5 font-mono tabular-nums text-xs font-semibold text-[#181715] dark:text-[#FAF8F3]">
                                 €{plat.price.toLocaleString()} {plat.currency}
@@ -259,10 +276,18 @@ export const MarketComparator: React.FC<MarketComparatorProps> = ({
                                 {plat.shippingTime} · {plat.dutiesIncluded ? 'Duties Paid' : 'Excl. Duties'}
                               </td>
                               <td className="py-2.5 text-right">
-                                <span className="inline-flex items-center gap-1 font-mono text-[10px] text-[#8C7853] hover:underline cursor-pointer">
-                                  <span>{plat.directUrlHint.split('/')[0]}</span>
-                                  <ExternalLink className="w-3 h-3" />
-                                </span>
+                                <div className="flex items-center justify-end gap-1.5">
+                                  <a
+                                    href={platformUrl}
+                                    target={isInternal ? '_self' : '_blank'}
+                                    rel={isInternal ? undefined : 'noopener noreferrer'}
+                                    className="inline-flex items-center gap-1 font-mono text-[10px] text-[#8C7853] dark:text-[#C5B492] hover:text-[#181715] dark:hover:text-white px-2 py-1 border border-[#D5CFC5] dark:border-[#38332E] bg-white dark:bg-[#1E1C1A] hover:bg-[#F3EFE7] dark:hover:bg-[#2A2622] transition-colors cursor-pointer group shadow-2xs"
+                                    title={`Verify and open live link on ${plat.platformName} platform`}
+                                  >
+                                    <span>{rawHint.split('/')[0] || 'Official Store'}</span>
+                                    <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                  </a>
+                                </div>
                               </td>
                             </tr>
                           );
