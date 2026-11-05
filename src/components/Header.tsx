@@ -1,11 +1,16 @@
 import React from 'react';
-import { ShoppingBag, Heart, Volume2, VolumeX, Sparkles, Moon, Sun, Truck, TrendingDown, User, Crown } from 'lucide-react';
-import { atelierAudio } from '../utils/audio';
+import { ShoppingBag, Heart, Volume2, VolumeX, Sparkles, Moon, Sun, Truck, User, Crown, Music2 } from 'lucide-react';
+import { atelierAudio, luxuryAudio } from '../utils/audio';
 import { useAuth } from '../context/AuthContext';
+import { LuxeLogo } from './LuxeLogo';
+
+export type NavigationPage = 'exhibition' | 'women' | 'men' | 'parfumerie' | 'lookbook' | 'elite' | 'soundscape' | 'salons' | 'market-index' | 'all';
 
 interface HeaderProps {
   cartCount: number;
   wishlistCount: number;
+  activePage?: NavigationPage;
+  onNavigatePage?: (page: NavigationPage) => void;
   onOpenCart: () => void;
   onOpenWishlist: () => void;
   onOpenSalonBooking: () => void;
@@ -20,6 +25,8 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   cartCount,
   wishlistCount,
+  activePage = 'exhibition',
+  onNavigatePage,
   onOpenCart,
   onOpenWishlist,
   onOpenSalonBooking,
@@ -30,35 +37,54 @@ export const Header: React.FC<HeaderProps> = ({
   isDarkMode,
   onToggleDarkMode,
 }) => {
-  const [isPlayingAudio, setIsPlayingAudio] = React.useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = React.useState(luxuryAudio.getIsPlaying());
   const { user, profile } = useAuth();
 
+  React.useEffect(() => {
+    const unsub = luxuryAudio.subscribe((playing) => {
+      setIsPlayingAudio(playing);
+    });
+    return () => unsub();
+  }, []);
+
   const handleToggleAudio = () => {
-    const active = atelierAudio.toggle();
-    setIsPlayingAudio(active);
+    luxuryAudio.toggle();
+  };
+
+  const handleNavClick = (e: React.MouseEvent, page: NavigationPage) => {
+    e.preventDefault();
+    if (onNavigatePage) {
+      onNavigatePage(page);
+    }
   };
 
   return (
     <header className="sticky top-0 z-40 bg-[#FAF9F5]/95 dark:bg-[#141311]/95 backdrop-blur-md border-b border-[#E8E4DC] dark:border-[#272421] transition-colors duration-200">
       {/* Editorial Announcement Bar */}
       <div className="bg-[#1C1B19] text-[#EAE6DE] dark:bg-[#0C0B0A] py-1.5 px-4 text-center text-[11px] tracking-[0.2em] uppercase font-sans-luxury flex items-center justify-center gap-3">
-        <span>Place Vendôme Salon · Autumn / Winter MMXXVI Archive</span>
+        <button
+          onClick={(e) => handleNavClick(e, 'exhibition')}
+          className="hover:text-[#C5B492] text-[#EAE6DE] transition-colors cursor-pointer flex items-center gap-1.5"
+        >
+          <Sparkles className="w-3 h-3 text-[#C5B492]" />
+          <span className="font-semibold text-[#D4AF37]">Exhibition MMXXVI · Welcome & Privileges</span>
+        </button>
         <span aria-hidden="true" className="opacity-40">·</span>
         <button
           onClick={onOpenAuthModal}
           className="hover:text-[#C5B492] text-[#E0D5BE] transition-colors cursor-pointer flex items-center gap-1 font-semibold"
         >
           <Crown className="w-3 h-3 text-[#C5B492]" />
-          <span>{user ? `Client: ${profile?.displayName?.split(' ')[0] || 'VIP'} (${profile?.clientTier || 'Elite'})` : 'Sign In / Espace Client Privé'}</span>
+          <span>{user ? `Client: ${profile?.displayName?.split(' ')[0] || 'VIP'} (${profile?.clientTier || 'Elite'})` : 'Sign In / Espace Client'}</span>
         </button>
         <span aria-hidden="true" className="opacity-40 hidden sm:inline">·</span>
-        <a
-          href="#maison-elite"
+        <button
+          onClick={(e) => handleNavClick(e, 'elite')}
           className="hover:text-[#C5B492] text-[#E0D5BE] transition-colors cursor-pointer hidden sm:flex items-center gap-1"
         >
           <Sparkles className="w-3 h-3 text-[#C5B492]" />
           <span>Maison Elite</span>
-        </a>
+        </button>
         <span aria-hidden="true" className="opacity-40 hidden sm:inline">·</span>
         <button
           onClick={onOpenOrderStatus}
@@ -82,61 +108,118 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Top Bar Contract: Zone 1 (Brand with Short Logo) — Zone 2 (Nav Links) — Zone 3 (Utilities) */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 h-18 flex items-center justify-between gap-6">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 h-18 flex items-center justify-between gap-4">
         
-        {/* Zone 1: Wordmark with new Maison Aurelia Short Logo */}
-        <a
-          href="/"
-          className="flex items-center gap-2.5 hover:opacity-85 transition-opacity shrink-0"
-          title="Maison Aurelia · 14 Place Vendôme Paris"
+        {/* Zone 1: Wordmark with new LUXE LAYOUT Emblem Logo */}
+        <button
+          onClick={(e) => handleNavClick(e, 'exhibition')}
+          className="flex items-center gap-2 hover:opacity-90 transition-opacity shrink-0 text-left cursor-pointer"
+          title="LUXE LAYOUT · 14 Place Vendôme Paris"
         >
-          <img
-            src="/assets/images/maison_aurelia_short_logo.jpg"
-            alt="Maison Aurelia Paris"
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-[#C5B492]/80 object-cover shadow-sm"
-          />
-          <span className="text-xl sm:text-2xl lg:text-[25px] tracking-[0.22em] uppercase font-serif-luxury text-[#181715] dark:text-[#F3F0E6] whitespace-nowrap">
-            Maison Aurelia
-          </span>
-        </a>
+          <LuxeLogo size="md" variant="horizontal" showSubtitle={false} />
+        </button>
 
-        {/* Zone 2: Navigation Links with distinct Femme and Homme sections */}
-        <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-[12px] lg:text-[13px] tracking-[0.16em] uppercase font-sans-luxury text-[#605B54] dark:text-[#A7A096]">
-          <a
-            href="#collection-women"
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] text-[#8C7853] dark:text-[#C5B492] font-semibold transition-colors whitespace-nowrap shrink-0 flex items-center gap-1"
+        {/* Zone 2: Navigation Links for multi-page exhibition */}
+        <nav className="hidden lg:flex items-center gap-3 xl:gap-4.5 text-[11px] xl:text-[12px] tracking-[0.16em] uppercase font-sans-luxury">
+          <button
+            onClick={(e) => handleNavClick(e, 'exhibition')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1 py-1 px-1.5 border-b-2 ${
+              activePage === 'exhibition'
+                ? 'border-[#8C7853] text-[#8C7853] dark:text-[#C5B492] font-semibold'
+                : 'border-transparent text-[#605B54] dark:text-[#A7A096] hover:text-[#181715] dark:hover:text-[#F3F0E6]'
+            }`}
+          >
+            <span>Exhibition & Privileges</span>
+          </button>
+          
+          <button
+            onClick={(e) => handleNavClick(e, 'women')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1 py-1 px-1.5 border-b-2 ${
+              activePage === 'women'
+                ? 'border-[#8C7853] text-[#8C7853] dark:text-[#C5B492] font-semibold'
+                : 'border-transparent text-[#605B54] dark:text-[#A7A096] hover:text-[#181715] dark:hover:text-[#F3F0E6]'
+            }`}
           >
             <span>Femme (Women)</span>
-          </a>
-          <a
-            href="#collection-men"
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] text-[#8C7853] dark:text-[#C5B492] font-semibold transition-colors whitespace-nowrap shrink-0 flex items-center gap-1"
+          </button>
+
+          <button
+            onClick={(e) => handleNavClick(e, 'men')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1 py-1 px-1.5 border-b-2 ${
+              activePage === 'men'
+                ? 'border-[#8C7853] text-[#8C7853] dark:text-[#C5B492] font-semibold'
+                : 'border-transparent text-[#605B54] dark:text-[#A7A096] hover:text-[#181715] dark:hover:text-[#F3F0E6]'
+            }`}
           >
             <span>Homme (Men)</span>
-          </a>
-          <a
-            href="#lookbook"
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0"
+          </button>
+
+          <button
+            onClick={(e) => handleNavClick(e, 'lookbook')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer py-1 px-1.5 border-b-2 ${
+              activePage === 'lookbook'
+                ? 'border-[#8C7853] text-[#8C7853] dark:text-[#C5B492] font-semibold'
+                : 'border-transparent text-[#605B54] dark:text-[#A7A096] hover:text-[#181715] dark:hover:text-[#F3F0E6]'
+            }`}
           >
             Lookbook
-          </a>
-          <a
-            href="#parfumerie"
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0"
+          </button>
+
+          <button
+            onClick={(e) => handleNavClick(e, 'parfumerie')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer py-1 px-1.5 border-b-2 ${
+              activePage === 'parfumerie'
+                ? 'border-[#8C7853] text-[#8C7853] dark:text-[#C5B492] font-semibold'
+                : 'border-transparent text-[#605B54] dark:text-[#A7A096] hover:text-[#181715] dark:hover:text-[#F3F0E6]'
+            }`}
           >
             Parfumerie
-          </a>
-          <a
-            href="#maison-elite"
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0"
-          >
-            Maison Elite
-          </a>
+          </button>
+
           <button
-            onClick={onOpenMarketComparator}
-            className="hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors whitespace-nowrap shrink-0 uppercase cursor-pointer"
+            onClick={(e) => handleNavClick(e, 'elite')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer py-1 px-1.5 border-b-2 ${
+              activePage === 'elite'
+                ? 'border-[#8C7853] text-[#8C7853] dark:text-[#C5B492] font-semibold'
+                : 'border-transparent text-[#605B54] dark:text-[#A7A096] hover:text-[#181715] dark:hover:text-[#F3F0E6]'
+            }`}
+          >
+            Luxe Elite
+          </button>
+
+          {/* Dedicated Music Tab (Salon Musique) */}
+          <button
+            onClick={(e) => handleNavClick(e, 'soundscape')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5 py-1 px-2 rounded-xs border-b-2 ${
+              activePage === 'soundscape'
+                ? 'border-[#8C7853] bg-[#8C7853]/10 text-[#8C7853] dark:text-[#D4AF37] font-semibold'
+                : 'border-transparent text-[#605B54] dark:text-[#A7A096] hover:text-[#181715] dark:hover:text-[#F3F0E6]'
+            }`}
+          >
+            <Volume2 className="w-3.5 h-3.5 text-[#8C7853]" />
+            <span>Salon Musique</span>
+          </button>
+
+          <button
+            onClick={(e) => handleNavClick(e, 'market-index')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer uppercase py-1 px-1.5 border-b-2 ${
+              activePage === 'market-index'
+                ? 'border-[#8C7853] text-[#8C7853] dark:text-[#C5B492] font-semibold'
+                : 'border-transparent text-[#605B54] dark:text-[#A7A096] hover:text-[#181715] dark:hover:text-[#F3F0E6]'
+            }`}
           >
             Market Index
+          </button>
+
+          <button
+            onClick={(e) => handleNavClick(e, 'all')}
+            className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer py-1 px-1.5 border-b-2 ${
+              activePage === 'all'
+                ? 'border-[#8C7853] text-[#8C7853] dark:text-[#C5B492] font-semibold'
+                : 'border-transparent text-[#8C7853]/80 hover:text-[#181715] dark:hover:text-[#F3F0E6]'
+            }`}
+          >
+            Continuous
           </button>
         </nav>
 
@@ -155,22 +238,27 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </button>
           
-          {/* Subtle Atelier Ambiance Sound Toggle */}
+          {/* Salon Musique Audio Tab Quick Link */}
           <button
-            onClick={handleToggleAudio}
-            title={isPlayingAudio ? 'Mute Atelier Rain & Cello Ambiance' : 'Play Atelier Place Vendôme Ambiance'}
-            className="flex items-center gap-1.5 px-2 py-1 text-[11px] uppercase tracking-[0.12em] text-[#706B63] dark:text-[#9F998F] hover:text-[#181715] dark:hover:text-[#F3F0E6] transition-colors rounded hover:bg-[#EFECE5] dark:hover:bg-[#201D1A]"
-            aria-label="Toggle ambient atelier soundscape"
+            onClick={(e) => handleNavClick(e, 'soundscape')}
+            title="Open Salon Musique tab (Dedicated acoustic sanctuary)"
+            className={`flex items-center gap-1.5 px-2 py-1 text-[11px] uppercase tracking-[0.12em] transition-colors rounded ${
+              activePage === 'soundscape'
+                ? 'bg-[#8C7853]/20 text-[#8C7853] dark:text-[#D4AF37] font-semibold'
+                : 'text-[#706B63] dark:text-[#9F998F] hover:text-[#181715] dark:hover:text-[#F3F0E6] hover:bg-[#EFECE5] dark:hover:bg-[#201D1A]'
+            }`}
+            aria-label="Open Salon Musique tab"
           >
             {isPlayingAudio ? (
               <>
-                <Volume2 className="w-3.5 h-3.5 text-[#8C7853]" />
-                <span className="hidden xl:inline text-[#8C7853]">Ambiance</span>
+                <Volume2 className="w-3.5 h-3.5 text-[#8C7853] animate-pulse" />
+                <span className="hidden xl:inline text-[#8C7853]">Musique</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>
               </>
             ) : (
               <>
                 <VolumeX className="w-3.5 h-3.5 opacity-60" />
-                <span className="hidden xl:inline">Sound</span>
+                <span className="hidden xl:inline">Musique</span>
               </>
             )}
           </button>

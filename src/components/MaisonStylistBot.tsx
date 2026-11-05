@@ -217,7 +217,7 @@ export const MaisonStylistBot: React.FC<MaisonStylistBotProps> = ({
                       Alice · Haute Couture Advisor
                     </h2>
                     <span className="text-[10px] uppercase tracking-widest px-2 py-0.5 bg-[#8C7853]/30 text-[#D4AF37] border border-[#8C7853]/40 font-mono">
-                      Maison Aurelia Paris
+                      LUXE LAYOUT Paris
                     </span>
                   </div>
                   <p className="text-[11px] text-[#A7A096] tracking-wider">

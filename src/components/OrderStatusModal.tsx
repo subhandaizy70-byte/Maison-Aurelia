@@ -125,7 +125,7 @@ export const OrderStatusModal: React.FC<OrderStatusModalProps> = ({
             <Truck className="w-4 h-4 text-[#8C7853]" />
             <div>
               <span className="text-[10px] uppercase tracking-[0.24em] font-sans-luxury text-[#8C7853] dark:text-[#C5B492] block">
-                Maison Aurelia · Haute Logistique
+                LUXE LAYOUT · Haute Logistique
               </span>
               <h3 className="text-xl font-serif-luxury text-[#181715] dark:text-[#FAF8F3] leading-none">
                 Consignment & Order Status Dossier

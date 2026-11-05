@@ -62,6 +62,9 @@ export interface LookbookSlide {
   modelSpecs: string;
   primaryProductId?: string;
   productIds?: string[];
+  curationBadge?: 'Trending' | 'Editorial Choice';
+  engagementScore?: number;
+  engagementLabel?: string;
 }
 
 export interface TrackingCheckpoint {

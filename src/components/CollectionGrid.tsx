@@ -345,7 +345,7 @@ export const CollectionGrid: React.FC<CollectionGridProps> = ({
                   {/* Product Image Stage (65-75% visual dominance) */}
                   <div className="relative aspect-[4/5] bg-[#F2EFE9] dark:bg-[#1D1B19] overflow-hidden">
                     <img
-                      src={product.image}
+                      src={product.image || '/assets/images/placeholder.jpg'}
                       alt={product.name}
                       referrerPolicy="no-referrer"
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
@@ -353,6 +353,10 @@ export const CollectionGrid: React.FC<CollectionGridProps> = ({
                           ? 'object-center'
                           : 'object-[center_16%]'
                       }`}
+                      onError={(e) => {
+                        // Fallback to a neutral placeholder if image fails to load
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80';
+                      }}
                     />
 
                     {/* Top Floating Controls */}

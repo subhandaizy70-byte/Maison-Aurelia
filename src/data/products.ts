@@ -866,7 +866,10 @@ export const LOOKBOOK_SLIDES: LookbookSlide[] = [
     ensemblePieces: ['Structured Sculptural Couture Gown', 'High-Waisted Fluid Crepe Trousers', 'Ivory Satin Pumps'],
     modelSpecs: 'Height 179cm · Wearing Size FR 36 · 35mm Film Editorial',
     primaryProductId: 'coat-hourglass-cashmere',
-    productIds: ['coat-hourglass-cashmere', 'trousers-pleated-crepe-ivoire']
+    productIds: ['coat-hourglass-cashmere', 'trousers-pleated-crepe-ivoire'],
+    curationBadge: 'Editorial Choice',
+    engagementScore: 98,
+    engagementLabel: 'Selected by Atelier Director · 35mm Archive'
   },
   {
     id: 'look-02',
@@ -878,7 +881,10 @@ export const LOOKBOOK_SLIDES: LookbookSlide[] = [
     ensemblePieces: ['Louis Vuitton Graphic Signature Ski Jacket (1AKX5Z)', 'Technical Monogram Stretch Ski Pant', 'Glacier Mirrored Visor'],
     modelSpecs: 'Height 178cm · Wearing Size FR 36 · Official LV Model',
     primaryProductId: 'lv-graphic-ski-jacket-1akx5z',
-    productIds: ['lv-graphic-ski-jacket-1akx5z']
+    productIds: ['lv-graphic-ski-jacket-1akx5z'],
+    curationBadge: 'Trending',
+    engagementScore: 99,
+    engagementLabel: 'Top Winter Campaign · 2.4k Inquiries'
   },
   {
     id: 'look-03',
@@ -890,7 +896,10 @@ export const LOOKBOOK_SLIDES: LookbookSlide[] = [
     ensemblePieces: ['Christian Dior 1947 Bar Jacket', 'Lady Dior Cannage Bag', 'Pleated Accordion Corolle Skirt'],
     modelSpecs: 'Height 179cm · Wearing Size FR 36 · Salon Montaigne',
     primaryProductId: 'dior-bar-jacket-heritage',
-    productIds: ['dior-bar-jacket-heritage', 'dior-lady-cannage-bag']
+    productIds: ['dior-bar-jacket-heritage', 'dior-lady-cannage-bag'],
+    curationBadge: 'Editorial Choice',
+    engagementScore: 97,
+    engagementLabel: 'Historic Heritage Selection · Avenue Montaigne'
   },
   {
     id: 'look-04',
@@ -926,7 +935,10 @@ export const LOOKBOOK_SLIDES: LookbookSlide[] = [
     ensemblePieces: ['VS Atelier Silk & Chantilly Lace Kimono', 'Matching Mulberry Silk Slip Gown', 'Silk Belt Sash'],
     modelSpecs: 'Height 177cm · Wearing Size S · Victoria\'s Secret Atelier',
     primaryProductId: 'vs-heavenly-silk-kimono',
-    productIds: ['vs-heavenly-silk-kimono']
+    productIds: ['vs-heavenly-silk-kimono'],
+    curationBadge: 'Trending',
+    engagementScore: 96,
+    engagementLabel: 'Viral Haussmann Suite · 1.9k Saves'
   },
   {
     id: 'look-07',
@@ -950,7 +962,10 @@ export const LOOKBOOK_SLIDES: LookbookSlide[] = [
     ensemblePieces: ['Aurelia Place Vendôme Midnight Velvet Cape', 'Solid 24k Gold Lion Crest Clasp', 'Tailored Flannel Cigarette Trousers'],
     modelSpecs: 'Height 181cm · Wearing Size FR 36 · Maison Aurelia.co Paris',
     primaryProductId: 'aurelia-place-vendome-velvet-cape',
-    productIds: ['aurelia-place-vendome-velvet-cape', 'coat-hourglass-cashmere']
+    productIds: ['aurelia-place-vendome-velvet-cape', 'coat-hourglass-cashmere'],
+    curationBadge: 'Editorial Choice',
+    engagementScore: 99,
+    engagementLabel: 'Place Vendôme Signature Masterpiece'
   },
   {
     id: 'look-09',
@@ -998,7 +1013,10 @@ export const LOOKBOOK_SLIDES: LookbookSlide[] = [
     ensemblePieces: ['Balenciaga Couture Sculpted Cocoon Opera Coat', 'Balenciaga Knife Silhouette Boots', 'Wrap Sunglasses'],
     modelSpecs: 'Height 180cm · Wearing Size FR 36 · Official Balenciaga Runway',
     primaryProductId: 'balenciaga-cocoon-opera-coat',
-    productIds: ['balenciaga-cocoon-opera-coat']
+    productIds: ['balenciaga-cocoon-opera-coat'],
+    curationBadge: 'Trending',
+    engagementScore: 94,
+    engagementLabel: 'Paris Runway Highlight · 1.5k Saves'
   },
   {
     id: 'look-13',
@@ -1022,7 +1040,10 @@ export const LOOKBOOK_SLIDES: LookbookSlide[] = [
     ensemblePieces: ['VS Bombshell Satin & Chantilly Bustier Gown', 'Diamond Teardrop Earrings', 'Silk Satin Strappy Sandals'],
     modelSpecs: 'Height 178cm · Wearing Size FR 36 · Victoria\'s Secret Atelier',
     primaryProductId: 'vs-bombshell-satin-lace-dress',
-    productIds: ['vs-bombshell-satin-lace-dress', 'vs-heavenly-silk-kimono']
+    productIds: ['vs-bombshell-satin-lace-dress', 'vs-heavenly-silk-kimono'],
+    curationBadge: 'Trending',
+    engagementScore: 93,
+    engagementLabel: 'Runway Archive Favorite · 1.2k Saves'
   },
   {
     id: 'look-15',
@@ -1034,7 +1055,10 @@ export const LOOKBOOK_SLIDES: LookbookSlide[] = [
     ensemblePieces: ['Christian Dior Saddle Bag in Blue Oblique', 'Christian Dior 1947 Bar Jacket', 'Cannage Micro-Pouch'],
     modelSpecs: '30 Avenue Montaigne Leather Workshop Heritage',
     primaryProductId: 'dior-saddle-oblique-bag',
-    productIds: ['dior-saddle-oblique-bag', 'dior-bar-jacket-heritage']
+    productIds: ['dior-saddle-oblique-bag', 'dior-bar-jacket-heritage'],
+    curationBadge: 'Editorial Choice',
+    engagementScore: 96,
+    engagementLabel: 'Maroquinerie d\'Exception · Atelier Pick'
   },
   {
     id: 'look-16',

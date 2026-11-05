@@ -61,7 +61,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
           <div className="lg:col-span-6 bg-[#F3F0E8] dark:bg-[#1C1A17] p-6 lg:p-8 flex flex-col justify-between">
             <div className="relative aspect-[4/5] max-h-[520px] bg-white dark:bg-black/40 overflow-hidden border border-[#E8E4DC] dark:border-[#2B2723]">
               <img
-                src={activeImage}
+                src={activeImage || '/assets/images/placeholder.jpg'}
                 alt={product.name}
                 referrerPolicy="no-referrer"
                 className={`w-full h-full object-cover transition-all duration-500 ${
@@ -69,6 +69,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                     ? 'object-center'
                     : 'object-[center_16%]'
                 }`}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80';
+                }}
               />
 
               {/* Numbered Edition watermark kicker */}
@@ -98,6 +101,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                           ? 'object-center'
                           : 'object-[center_20%]'
                       }`}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80';
+                      }}
                     />
                   </button>
                 ))}

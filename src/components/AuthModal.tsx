@@ -23,8 +23,8 @@ import {
   Save,
   Phone,
   MapPin
-} from 'lucide-react';
 import { OrderHistory } from './OrderHistory';
+import { LuxeLogo } from './LuxeLogo';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -194,17 +194,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Top Header Bar */}
         <div className="p-5 border-b border-[#E2DDD3] dark:border-[#2C2824] flex items-center justify-between bg-[#F4EFE6] dark:bg-[#1A1816]">
           <div className="flex items-center gap-3">
-            <img 
-              src="/assets/images/maison_aurelia_short_logo.jpg" 
-              alt="Maison Aurelia Paris" 
-              className="w-8 h-8 rounded-full border border-[#C5B492]/80 object-cover" 
-            />
+            <LuxeLogo size="sm" variant="emblem" />
             <div>
               <div className="text-[10px] uppercase tracking-[0.24em] font-sans-luxury text-[#8C7853] dark:text-[#C5B492]">
-                Espace Client Privé & Haute Joaillerie
+                Espace Client Privé · Place Vendôme
               </div>
               <h3 className="text-xl font-serif-luxury tracking-wide">
-                {user ? 'Mon Compte Maison Aurelia' : 'Identification Client'}
+                {user ? 'Mon Compte LUXE LAYOUT' : 'Identification LUXE LAYOUT'}
               </h3>
             </div>
           </div>

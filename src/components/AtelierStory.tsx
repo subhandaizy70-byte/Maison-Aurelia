@@ -47,7 +47,7 @@ export const AtelierStory: React.FC<AtelierStoryProps> = ({ onOpenSalonBooking }
             </h2>
 
             <p className="mt-5 text-base text-[#605B54] dark:text-[#A7A096] font-light leading-relaxed">
-              At Maison Aurelia, we reject the frantic churn of seasonal obsolescence. Our Place Vendôme workshops operate under the principle of the singular artisan: each tailored garment is drawn, basted, and assembled by one master craftsman from first chalk mark to final buttonhole.
+              At LUXE LAYOUT, we reject the frantic churn of seasonal obsolescence. Our Place Vendôme workshops operate under the principle of the singular artisan: each tailored garment is drawn, basted, and assembled by one master craftsman from first chalk mark to final buttonhole.
             </p>
           </div>
 

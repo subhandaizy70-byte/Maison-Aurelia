@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Product, CartItem } from './types/fashion';
 import { PRODUCTS } from './data/products';
-import { Header } from './components/Header';
+import { Header, NavigationPage } from './components/Header';
 import { Hero } from './components/Hero';
+import { ExhibitionIntroPage } from './components/ExhibitionIntroPage';
 import { WomenSection } from './components/WomenSection';
 import { MenSection } from './components/MenSection';
 import { CollectionGrid } from './components/CollectionGrid';
@@ -22,6 +23,7 @@ import { OrderStatusModal } from './components/OrderStatusModal';
 import { AuthModal } from './components/AuthModal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { MaisonStylistBot, consultAlice } from './components/MaisonStylistBot';
+import { SoundscapeSection } from './components/SoundscapeSection';
 
 function AppContent() {
   const { savedCards, profile, recordPaymentOrder } = useAuth();
@@ -128,6 +130,14 @@ function AppContent() {
     setCartItems([]);
   };
 
+  // Active exhibition page / pavilion routing for visitors
+  const [activePage, setActivePage] = useState<NavigationPage>('exhibition');
+
+  const handleNavigatePage = (page: NavigationPage) => {
+    setActivePage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Wishlist operations
   const handleToggleWishlist = (productId: string) => {
     setWishlistIds((prev) =>
@@ -136,23 +146,19 @@ function AppContent() {
   };
 
   const handleExploreCollection = () => {
-    const el = document.getElementById('collection-women') || document.getElementById('collections');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    handleNavigatePage('women');
   };
 
   const handleExploreWomen = () => {
-    const el = document.getElementById('collection-women');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    handleNavigatePage('women');
   };
 
   const handleExploreMen = () => {
-    const el = document.getElementById('collection-men');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    handleNavigatePage('men');
   };
 
   const handleViewLookbook = () => {
-    const el = document.getElementById('lookbook');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    handleNavigatePage('lookbook');
   };
 
   const handleOpenOrderStatus = (orderId?: string) => {
@@ -167,10 +173,12 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-[#FAF9F5] text-[#161513] dark:bg-[#141311] dark:text-[#FAF8F3] transition-colors duration-200 flex flex-col font-sans-luxury">
       
-      {/* Top Header */}
+      {/* Top Header with multi-page navigation props */}
       <Header
         cartCount={totalCartCount}
         wishlistCount={wishlistIds.length}
+        activePage={activePage}
+        onNavigatePage={handleNavigatePage}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenSalonBooking={() => setIsSalonModalOpen(true)}
@@ -182,79 +190,293 @@ function AppContent() {
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
 
-      {/* Main Content Sections */}
+      {/* Exhibition Pavilion Switcher Bar (Instant Access for Tomorrow's Exhibition Guests) */}
+      <div className="bg-[#F0ECE1] dark:bg-[#1A1816] border-b border-[#E2DDD3] dark:border-[#2C2926] py-2 px-4 sm:px-6 sticky top-25 z-30 shadow-xs">
+        <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-4 overflow-x-auto scrollbar-none">
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="inline-block w-2 h-2 rounded-full bg-[#8C7853] animate-pulse" />
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#8C7853] dark:text-[#C5B492] font-semibold whitespace-nowrap">
+              Exhibition Pavilion Directory:
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <button
+              onClick={() => handleNavigatePage('exhibition')}
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer border ${
+                activePage === 'exhibition'
+                  ? 'bg-[#181715] text-[#FAF9F5] border-[#181715] dark:bg-[#FAF9F5] dark:text-[#181715] dark:border-[#FAF9F5] font-semibold shadow-xs'
+                  : 'bg-white/80 dark:bg-[#25221F] text-[#4F4B45] dark:text-[#C5BFB5] border-[#DCD5C9] dark:border-[#38332E] hover:border-[#8C7853]'
+              }`}
+            >
+              🏛️ Exhibition & Privileges
+            </button>
+
+            <button
+              onClick={() => handleNavigatePage('women')}
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer border ${
+                activePage === 'women'
+                  ? 'bg-[#181715] text-[#FAF9F5] border-[#181715] dark:bg-[#FAF9F5] dark:text-[#181715] dark:border-[#FAF9F5] font-semibold shadow-xs'
+                  : 'bg-white/80 dark:bg-[#25221F] text-[#4F4B45] dark:text-[#C5BFB5] border-[#DCD5C9] dark:border-[#38332E] hover:border-[#8C7853]'
+              }`}
+            >
+              👗 Femme (42)
+            </button>
+
+            <button
+              onClick={() => handleNavigatePage('men')}
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer border ${
+                activePage === 'men'
+                  ? 'bg-[#181715] text-[#FAF9F5] border-[#181715] dark:bg-[#FAF9F5] dark:text-[#181715] dark:border-[#FAF9F5] font-semibold shadow-xs'
+                  : 'bg-white/80 dark:bg-[#25221F] text-[#4F4B45] dark:text-[#C5BFB5] border-[#DCD5C9] dark:border-[#38332E] hover:border-[#8C7853]'
+              }`}
+            >
+              👔 Homme (33)
+            </button>
+
+            <button
+              onClick={() => handleNavigatePage('lookbook')}
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer border ${
+                activePage === 'lookbook'
+                  ? 'bg-[#181715] text-[#FAF9F5] border-[#181715] dark:bg-[#FAF9F5] dark:text-[#181715] dark:border-[#FAF9F5] font-semibold shadow-xs'
+                  : 'bg-white/80 dark:bg-[#25221F] text-[#4F4B45] dark:text-[#C5BFB5] border-[#DCD5C9] dark:border-[#38332E] hover:border-[#8C7853]'
+              }`}
+            >
+              📖 Lookbook
+            </button>
+
+            <button
+              onClick={() => handleNavigatePage('parfumerie')}
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer border ${
+                activePage === 'parfumerie'
+                  ? 'bg-[#181715] text-[#FAF9F5] border-[#181715] dark:bg-[#FAF9F5] dark:text-[#181715] dark:border-[#FAF9F5] font-semibold shadow-xs'
+                  : 'bg-white/80 dark:bg-[#25221F] text-[#4F4B45] dark:text-[#C5BFB5] border-[#DCD5C9] dark:border-[#38332E] hover:border-[#8C7853]'
+              }`}
+            >
+              💎 Parfumerie
+            </button>
+
+            <button
+              onClick={() => handleNavigatePage('elite')}
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer border ${
+                activePage === 'elite'
+                  ? 'bg-[#181715] text-[#FAF9F5] border-[#181715] dark:bg-[#FAF9F5] dark:text-[#181715] dark:border-[#FAF9F5] font-semibold shadow-xs'
+                  : 'bg-white/80 dark:bg-[#25221F] text-[#4F4B45] dark:text-[#C5BFB5] border-[#DCD5C9] dark:border-[#38332E] hover:border-[#8C7853]'
+              }`}
+            >
+              👑 Maison Elite
+            </button>
+
+            <button
+              onClick={() => handleNavigatePage('salons')}
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer border ${
+                activePage === 'salons'
+                  ? 'bg-[#181715] text-[#FAF9F5] border-[#181715] dark:bg-[#FAF9F5] dark:text-[#181715] dark:border-[#FAF9F5] font-semibold shadow-xs'
+                  : 'bg-white/80 dark:bg-[#25221F] text-[#4F4B45] dark:text-[#C5BFB5] border-[#DCD5C9] dark:border-[#38332E] hover:border-[#8C7853]'
+              }`}
+            >
+              🏛️ Salons
+            </button>
+
+            <button
+              onClick={() => handleNavigatePage('market-index')}
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer border ${
+                activePage === 'market-index'
+                  ? 'bg-[#181715] text-[#FAF9F5] border-[#181715] dark:bg-[#FAF9F5] dark:text-[#181715] dark:border-[#FAF9F5] font-semibold shadow-xs'
+                  : 'bg-white/80 dark:bg-[#25221F] text-[#4F4B45] dark:text-[#C5BFB5] border-[#DCD5C9] dark:border-[#38332E] hover:border-[#8C7853]'
+              }`}
+            >
+              📊 Market Index
+            </button>
+
+            <button
+              onClick={() => handleNavigatePage('all')}
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer border ${
+                activePage === 'all'
+                  ? 'bg-[#8C7853] text-[#FAF9F5] border-[#8C7853] font-semibold shadow-xs'
+                  : 'bg-[#8C7853]/10 text-[#8C7853] dark:text-[#D4AF37] border-[#8C7853]/30 hover:border-[#8C7853]'
+              }`}
+            >
+              📜 Continuous Runway (All)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content Sections according to Active Page */}
       <main className="flex-1">
-        {/* Campaign Hero */}
-        <Hero
-          onExploreCollection={handleExploreCollection}
-          onExploreWomen={handleExploreWomen}
-          onExploreMen={handleExploreMen}
-          onViewLookbook={handleViewLookbook}
-          onOpenSalonBooking={() => setIsSalonModalOpen(true)}
-        />
+        
+        {/* 1. EXHIBITION INTRO & PRIVILEGES PAGE */}
+        {activePage === 'exhibition' && (
+          <ExhibitionIntroPage
+            onNavigatePage={handleNavigatePage}
+            onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            onOpenAliceBot={() => consultAlice(undefined, true)}
+            onOpenAuthModal={() => setIsAuthModalOpen(true)}
+          />
+        )}
 
-        {/* LUXE Interior & Wardrobe Design Philosophy */}
-        <LuxeDesignSection
-          onExploreCollection={handleExploreCollection}
-          onOpenSalonBooking={() => setIsSalonModalOpen(true)}
-        />
+        {/* 2. UNIVERS FEMME DEDICATED PAGE */}
+        {activePage === 'women' && (
+          <div className="py-4">
+            <WomenSection
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              onQuickAdd={handleQuickAdd}
+              onToggleWishlist={handleToggleWishlist}
+              wishlistIds={wishlistIds}
+            />
+          </div>
+        )}
 
-        {/* Global Collections Anchor */}
-        <div id="collections" className="scroll-mt-18" />
+        {/* 3. UNIVERS HOMME DEDICATED PAGE */}
+        {activePage === 'men' && (
+          <div className="py-4">
+            <MenSection
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              onQuickAdd={handleQuickAdd}
+              onToggleWishlist={handleToggleWishlist}
+              wishlistIds={wishlistIds}
+            />
+          </div>
+        )}
 
-        {/* 1. UNIVERS FEMME · DEDICATED WOMEN'S COUTURE & FOOTWEAR SECTION */}
-        <WomenSection
-          onSelectProduct={(product) => setSelectedProduct(product)}
-          onQuickAdd={handleQuickAdd}
-          onToggleWishlist={handleToggleWishlist}
-          wishlistIds={wishlistIds}
-        />
+        {/* 4. RUNWAY & EDITORIAL LOOKBOOK */}
+        {activePage === 'lookbook' && (
+          <div className="py-4">
+            <LookbookSection
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            />
+          </div>
+        )}
 
-        {/* 2. UNIVERS HOMME · DEDICATED MEN'S BESPOKE TAILORING & FOOTWEAR SECTION */}
-        <MenSection
-          onSelectProduct={(product) => setSelectedProduct(product)}
-          onQuickAdd={handleQuickAdd}
-          onToggleWishlist={handleToggleWishlist}
-          wishlistIds={wishlistIds}
-        />
+        {/* 5. HAUTE PARFUMERIE & OLFACTORY ATELIER */}
+        {activePage === 'parfumerie' && (
+          <div className="py-4">
+            <FragranceSection
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            />
+          </div>
+        )}
 
-        {/* Haute Parfumerie & Olfactory Atelier */}
-        <FragranceSection
-          onSelectProduct={(product) => setSelectedProduct(product)}
-          onOpenSalonBooking={() => setIsSalonModalOpen(true)}
-        />
+        {/* 6. MAISON ELITE PATRONAGE & CLIENT PRIVILEGES */}
+        {activePage === 'elite' && (
+          <div className="py-4">
+            <MaisonEliteSection
+              onOpenOrderStatus={(orderId) => handleOpenOrderStatus(orderId)}
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+              onOpenAuthModal={() => setIsAuthModalOpen(true)}
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              externalSpend={completedCheckoutSpend}
+              completedCheckoutSpend={completedCheckoutSpend}
+              onUpdateCheckoutSpend={(newAmount) => setCompletedCheckoutSpend(newAmount)}
+            />
+          </div>
+        )}
 
-        {/* Runway & Editorial Lookbook */}
-        <LookbookSection
-          onSelectProduct={(product) => setSelectedProduct(product)}
-          onOpenSalonBooking={() => setIsSalonModalOpen(true)}
-        />
+        {/* 6.5 DEDICATED SOUNDSCAPE TAB (SALON MUSIQUE) */}
+        {activePage === 'soundscape' && (
+          <SoundscapeSection
+            onNavigatePage={(page) => handleNavigatePage(page)}
+            onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+          />
+        )}
 
-        {/* The Parisian Savoir-Faire & Craft */}
-        <AtelierStory
-          onOpenSalonBooking={() => setIsSalonModalOpen(true)}
-        />
+        {/* 7. GLOBAL SALONS PRIVÉS */}
+        {activePage === 'salons' && (
+          <div className="py-4">
+            <SalonsSection
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            />
+          </div>
+        )}
 
-        {/* Global Luxury Price & Multi-House Valuation Comparator */}
-        <MarketComparator
-          isStandaloneSection={true}
-        />
+        {/* 8. MARKET COMPARATOR & GLOBAL LUXURY INDEX */}
+        {activePage === 'market-index' && (
+          <div className="py-8">
+            <MarketComparator
+              isStandaloneSection={true}
+            />
+          </div>
+        )}
 
-        {/* Maison Elite Loyalty & Cumulative Patronage Program */}
-        <MaisonEliteSection
-          onOpenOrderStatus={(orderId) => handleOpenOrderStatus(orderId)}
-          onOpenSalonBooking={() => setIsSalonModalOpen(true)}
-          onOpenAuthModal={() => setIsAuthModalOpen(true)}
-          onSelectProduct={(product) => setSelectedProduct(product)}
-          externalSpend={completedCheckoutSpend}
-          completedCheckoutSpend={completedCheckoutSpend}
-          onUpdateCheckoutSpend={(newAmount) => setCompletedCheckoutSpend(newAmount)}
-        />
+        {/* 9. CONTINUOUS RUNWAY SHOWCASE (ALL SECTIONS) */}
+        {activePage === 'all' && (
+          <>
+            {/* Campaign Hero */}
+            <Hero
+              onExploreCollection={handleExploreCollection}
+              onExploreWomen={handleExploreWomen}
+              onExploreMen={handleExploreMen}
+              onViewLookbook={handleViewLookbook}
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            />
 
-        {/* Global Salons & Appointments */}
-        <SalonsSection
-          onOpenSalonBooking={() => setIsSalonModalOpen(true)}
-        />
+            {/* LUXE Interior & Wardrobe Design Philosophy */}
+            <LuxeDesignSection
+              onExploreCollection={handleExploreCollection}
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            />
+
+            {/* Global Collections Anchor */}
+            <div id="collections" className="scroll-mt-18" />
+
+            {/* Univers Femme */}
+            <WomenSection
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              onQuickAdd={handleQuickAdd}
+              onToggleWishlist={handleToggleWishlist}
+              wishlistIds={wishlistIds}
+            />
+
+            {/* Univers Homme */}
+            <MenSection
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              onQuickAdd={handleQuickAdd}
+              onToggleWishlist={handleToggleWishlist}
+              wishlistIds={wishlistIds}
+            />
+
+            {/* Haute Parfumerie */}
+            <FragranceSection
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            />
+
+            {/* Runway & Editorial Lookbook */}
+            <LookbookSection
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            />
+
+            {/* Parisian Savoir-Faire */}
+            <AtelierStory
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            />
+
+            {/* Global Luxury Price Comparator */}
+            <MarketComparator
+              isStandaloneSection={true}
+            />
+
+            {/* Maison Elite */}
+            <MaisonEliteSection
+              onOpenOrderStatus={(orderId) => handleOpenOrderStatus(orderId)}
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+              onOpenAuthModal={() => setIsAuthModalOpen(true)}
+              onSelectProduct={(product) => setSelectedProduct(product)}
+              externalSpend={completedCheckoutSpend}
+              completedCheckoutSpend={completedCheckoutSpend}
+              onUpdateCheckoutSpend={(newAmount) => setCompletedCheckoutSpend(newAmount)}
+            />
+
+            {/* Salons Privés */}
+            <SalonsSection
+              onOpenSalonBooking={() => setIsSalonModalOpen(true)}
+            />
+          </>
+        )}
       </main>
 
       {/* Haute Couture Footer */}

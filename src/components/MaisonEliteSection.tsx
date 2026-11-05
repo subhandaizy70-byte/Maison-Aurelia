@@ -3,6 +3,7 @@ import { ELITE_TIERS, INITIAL_PATRON_PURCHASES, INITIAL_PRIVATE_EVENTS, UPCOMING
 import { PatronPurchase, PrivateEvent, EliteTierLevel, Product } from '../types/fashion';
 import { useAuth } from '../context/AuthContext';
 import { ConciergeChatSection } from './ConciergeChatSection';
+import { LoyaltyPointsProgram } from './LoyaltyPointsProgram';
 import { 
   Crown, 
   Sparkles, 
@@ -25,7 +26,9 @@ import {
   ChevronRight,
   Fingerprint,
   X,
-  MessageSquare
+  MessageSquare,
+  Coins,
+  Award
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -53,7 +56,7 @@ export const MaisonEliteSection: React.FC<MaisonEliteSectionProps> = ({
   const { user, profile } = useAuth();
   const [purchases, setPurchases] = useState<PatronPurchase[]>(INITIAL_PATRON_PURCHASES);
   const [events, setEvents] = useState<PrivateEvent[]>(INITIAL_PRIVATE_EVENTS);
-  const [activeTab, setActiveTab] = useState<'timeline' | 'benefits' | 'events' | 'capsules' | 'ledger' | 'concierge-chat'>('timeline');
+  const [activeTab, setActiveTab] = useState<'loyalty-points' | 'timeline' | 'benefits' | 'events' | 'capsules' | 'ledger' | 'concierge-chat'>('loyalty-points');
   const [rsvpNotice, setRsvpNotice] = useState<string | null>(null);
   const [allocationNotice, setAllocationNotice] = useState<string | null>(null);
   const [isTierModalOpen, setIsTierModalOpen] = useState(false);
@@ -209,7 +212,7 @@ export const MaisonEliteSection: React.FC<MaisonEliteSectionProps> = ({
               <span>Place Vendôme Registry</span>
             </div>
             <h2 className="text-3xl lg:text-4xl font-serif-luxury text-[#181715] dark:text-[#FAF8F3]">
-              Maison Elite Patronage
+              LUXE LAYOUT · Elite Patronage
             </h2>
           </div>
 
@@ -519,6 +522,18 @@ export const MaisonEliteSection: React.FC<MaisonEliteSectionProps> = ({
         {/* Segmented Sub-Navigation Tabs */}
         <div className="mt-8 flex flex-wrap items-center gap-2 border-b border-[#E0D9CB] dark:border-[#2B2724] pb-4">
           <button
+            onClick={() => setActiveTab('loyalty-points')}
+            className={`px-4 py-2 text-xs uppercase tracking-[0.14em] font-sans-luxury transition-all cursor-pointer flex items-center gap-2 ${
+              activeTab === 'loyalty-points'
+                ? 'bg-[#181715] text-[#FAF9F5] dark:bg-[#FAF8F3] dark:text-[#181715] font-semibold shadow-sm border border-[#D4AF37]'
+                : 'bg-[#EDE8DE] text-[#605B54] hover:bg-[#E2DDCF] dark:bg-[#1E1C19] dark:text-[#A7A096]'
+            }`}
+          >
+            <Coins className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <span>Loyalty Points & VVIP Ascension</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('timeline')}
             className={`px-4 py-2 text-xs uppercase tracking-[0.14em] font-sans-luxury transition-all cursor-pointer flex items-center gap-2 ${
               activeTab === 'timeline'
@@ -590,6 +605,20 @@ export const MaisonEliteSection: React.FC<MaisonEliteSectionProps> = ({
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           </button>
         </div>
+
+        {/* ============================================================== */}
+        {/* TAB: LOYALTY POINTS PROGRAM & VVIP STATUS PROGRESSION */}
+        {/* ============================================================== */}
+        {activeTab === 'loyalty-points' && (
+          <div className="mt-8">
+            <LoyaltyPointsProgram
+              purchases={purchases}
+              currentSpend={currentCheckoutSpend}
+              onSimulatePurchase={handleSimulatePurchase}
+              onAdjustSpend={handleAdjustCheckoutSpend}
+            />
+          </div>
+        )}
 
         {/* ============================================================== */}
         {/* TAB: SUMMARIZED RECENT PURCHASES TIMELINE FOR LOGGED-IN CLIENT */}

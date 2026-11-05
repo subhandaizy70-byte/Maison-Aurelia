@@ -13,6 +13,21 @@ interface WomenSectionProps {
 
 type WomenCategoryFilter = 'all' | 'clothes' | 'shoes' | 'boots' | 'bags' | 'accessories';
 
+// Example CSS / Tailwind classes for your Product Grid & Card
+export const productGridStyles = {
+  // Container
+  grid: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 w-full max-w-7xl mx-auto",
+  
+  // Individual Card Container (Prevents content spilling)
+  card: "relative flex flex-col bg-white dark:bg-[#1A1816] border border-[#E5E0D8] dark:border-[#2C2926] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer",
+  
+  // Image Wrapper (Fixes aspect ratio and prevents image overlap)
+  imageWrapper: "relative w-full h-72 bg-[#F9F8F6] dark:bg-[#201D1A] overflow-hidden flex items-center justify-center shrink-0",
+  
+  // Image Element
+  image: "w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105 product-card-img"
+};
+
 export const WomenSection: React.FC<WomenSectionProps> = ({
   onSelectProduct,
   onQuickAdd,
@@ -254,7 +269,7 @@ export const WomenSection: React.FC<WomenSectionProps> = ({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 pt-10">
+        <div className={productGridStyles.grid}>
           {womenProducts.map((product) => {
             const isWishlisted = wishlistIds.includes(product.id);
             const isJustAdded = addedNoticeId === product.id;
@@ -268,18 +283,18 @@ export const WomenSection: React.FC<WomenSectionProps> = ({
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
                 onClick={() => onSelectProduct(product)}
-                className="group cursor-pointer flex flex-col"
+                className={productGridStyles.card}
               >
-                {/* Image Container with editorial aspect */}
-                <div className="relative aspect-[3/4] bg-[#F3EFE6] dark:bg-[#1E1B18] overflow-hidden border border-[#E8E4DC] dark:border-[#272421]">
+                {/* Image Wrapper (Fixes aspect ratio and prevents image overlap) */}
+                <div className={productGridStyles.imageWrapper}>
                   <img
-                    src={product.image}
+                    src={product.image || '/assets/images/placeholder.jpg'}
                     alt={product.name}
-                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                    className={productGridStyles.image}
                     loading="lazy"
                     onError={(e) => {
-                      // Fallback to high-res model image if any error
-                      (e.target as HTMLImageElement).src = '/assets/images/hero_luxury_fashion_model_1793507760974.jpg';
+                      // Fallback to a neutral placeholder if image fails to load
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80';
                     }}
                   />
 
@@ -288,18 +303,21 @@ export const WomenSection: React.FC<WomenSectionProps> = ({
                     <img
                       src={product.secondaryImage}
                       alt={`${product.name} detail`}
-                      className="absolute inset-0 w-full h-full object-cover object-top opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100"
+                      className="absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100"
                       loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
                     />
                   )}
 
                   {/* House Hallmark Badge */}
-                  <div className="absolute top-3 left-3 flex flex-col gap-1 items-start">
-                    <span className="px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] font-mono bg-[#181715]/90 text-[#FAF9F5] backdrop-blur-sm border border-white/10">
+                  <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10">
+                    <span className="px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] font-mono bg-[#181715]/90 text-[#FAF9F5] backdrop-blur-sm border border-white/10 rounded-sm">
                       {product.brand || 'Maison Aurelia'}
                     </span>
                     {product.featured && (
-                      <span className="px-2 py-0.5 text-[8px] uppercase tracking-wider font-mono bg-[#8C7853] text-white">
+                      <span className="px-2 py-0.5 text-[8px] uppercase tracking-wider font-mono bg-[#8C7853] text-white rounded-sm">
                         Salons Archive
                       </span>
                     )}
@@ -311,7 +329,7 @@ export const WomenSection: React.FC<WomenSectionProps> = ({
                       e.stopPropagation();
                       onToggleWishlist(product.id);
                     }}
-                    className={`absolute top-3 right-3 p-2.5 transition-colors duration-200 cursor-pointer ${
+                    className={`absolute top-3 right-3 p-2.5 transition-colors duration-200 cursor-pointer z-10 ${
                       isWishlisted
                         ? 'bg-[#8C7853] text-white'
                         : 'bg-white/80 dark:bg-[#181715]/80 text-[#181715] dark:text-white hover:bg-white'
@@ -322,7 +340,7 @@ export const WomenSection: React.FC<WomenSectionProps> = ({
                   </button>
 
                   {/* Quick Acquisition Button on Hover */}
-                  <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
+                  <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2 z-10">
                     <button
                       onClick={(e) => handleQuickAddClick(e, product)}
                       className="flex-1 py-2 text-[10px] uppercase tracking-[0.18em] font-sans-luxury bg-white text-[#181715] hover:bg-[#FAF9F5] flex items-center justify-center gap-1.5 transition-colors font-medium shadow-sm"
@@ -352,8 +370,8 @@ export const WomenSection: React.FC<WomenSectionProps> = ({
                   </div>
                 </div>
 
-                {/* Meta details */}
-                <div className="pt-4 flex flex-col flex-1">
+                {/* Individual Card Content - Prevents content spilling */}
+                <div className="p-4 flex flex-col flex-1 bg-white dark:bg-[#1A1816]">
                   <div className="text-[10px] uppercase tracking-[0.18em] text-[#8C7853] dark:text-[#C5B492] font-mono">
                     {product.categoryLabel} · {product.sizes[0] || 'FR 36'}
                   </div>

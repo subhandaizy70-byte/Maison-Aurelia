@@ -23,7 +23,11 @@ import {
   ZoomOut,
   RotateCcw,
   Eye,
-  Scan
+  Scan,
+  Flame,
+  Award,
+  TrendingUp,
+  Heart
 } from 'lucide-react';
 import { Product, LookbookSlide } from '../types/fashion';
 
@@ -50,6 +54,29 @@ export const LookbookSection: React.FC<LookbookSectionProps> = ({
   const [isCinemaPlaying, setIsCinemaPlaying] = useState(true);
   const [isCinemaSlowMo, setIsCinemaSlowMo] = useState(false);
   const [showEnsembleDrawer, setShowEnsembleDrawer] = useState(false);
+
+  // Editorial Curation & Interactive Engagement States
+  const [curationFilter, setCurationFilter] = useState<'all' | 'editorial' | 'trending'>('all');
+  const [savedLookIds, setSavedLookIds] = useState<string[]>(() => {
+    try {
+      const stored = localStorage.getItem('maison_curated_looks');
+      return stored ? JSON.parse(stored) : ['look-01', 'look-02', 'look-08'];
+    } catch {
+      return ['look-01', 'look-02', 'look-08'];
+    }
+  });
+
+  const toggleSaveLook = (id: string) => {
+    setSavedLookIds((prev) => {
+      const next = prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id];
+      try {
+        localStorage.setItem('maison_curated_looks', JSON.stringify(next));
+      } catch {
+        // ignore
+      }
+      return next;
+    });
+  };
 
   // Tactile Magnification & Zoom States (Dior & Victoria's Secret inspired)
   const [zoomMode, setZoomMode] = useState<'dior-loupe' | 'vs-pan'>('dior-loupe');
@@ -392,6 +419,99 @@ export const LookbookSection: React.FC<LookbookSectionProps> = ({
           </span>
         </div>
 
+        {/* Editorial Curation Filter Bar */}
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 p-2 bg-[#EAE5D9] dark:bg-[#1A1816] border border-[#DDD6C7] dark:border-[#2C2723]">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <span className="text-[10px] uppercase tracking-[0.2em] font-mono text-[#787268] dark:text-[#9A9388] px-2 hidden sm:inline">
+              Curation:
+            </span>
+
+            {/* All Silhouettes */}
+            <button
+              onClick={() => setCurationFilter('all')}
+              className={`px-3 py-1.5 text-xs font-sans-luxury uppercase tracking-wider transition-all cursor-pointer ${
+                curationFilter === 'all'
+                  ? 'bg-[#181715] text-[#FAF9F5] dark:bg-[#FAF8F3] dark:text-[#181715] font-semibold shadow-sm'
+                  : 'bg-transparent text-[#605B54] dark:text-[#A7A096] hover:bg-white/40 dark:hover:bg-white/5'
+              }`}
+            >
+              All Looks ({LOOKBOOK_SLIDES.length})
+            </button>
+
+            {/* Editorial Choice Filter */}
+            <button
+              onClick={() => {
+                setCurationFilter('editorial');
+                const firstEditorialIdx = LOOKBOOK_SLIDES.findIndex((s) => s.curationBadge === 'Editorial Choice');
+                if (firstEditorialIdx !== -1) setCurrentIndex(firstEditorialIdx);
+              }}
+              className={`px-3 py-1.5 text-xs font-sans-luxury uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 ${
+                curationFilter === 'editorial'
+                  ? 'bg-[#8C7853] text-[#FAF9F5] font-semibold shadow-sm border border-[#C5B492]'
+                  : 'bg-transparent text-[#605B54] dark:text-[#A7A096] hover:bg-white/40 dark:hover:bg-white/5'
+              }`}
+            >
+              <Award className="w-3.5 h-3.5 text-[#C5B492]" />
+              <span>Editorial Choice</span>
+              <span className="text-[10px] font-mono opacity-80">
+                ({LOOKBOOK_SLIDES.filter((s) => s.curationBadge === 'Editorial Choice').length})
+              </span>
+            </button>
+
+            {/* Trending Filter */}
+            <button
+              onClick={() => {
+                setCurationFilter('trending');
+                const firstTrendingIdx = LOOKBOOK_SLIDES.findIndex((s) => s.curationBadge === 'Trending');
+                if (firstTrendingIdx !== -1) setCurrentIndex(firstTrendingIdx);
+              }}
+              className={`px-3 py-1.5 text-xs font-sans-luxury uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 ${
+                curationFilter === 'trending'
+                  ? 'bg-[#141311] text-amber-300 font-semibold shadow-sm border border-amber-500/60'
+                  : 'bg-transparent text-[#605B54] dark:text-[#A7A096] hover:bg-white/40 dark:hover:bg-white/5'
+              }`}
+            >
+              <Flame className="w-3.5 h-3.5 text-amber-500" />
+              <span>Trending</span>
+              <span className="text-[10px] font-mono opacity-80">
+                ({LOOKBOOK_SLIDES.filter((s) => s.curationBadge === 'Trending').length})
+              </span>
+            </button>
+          </div>
+
+          {/* Quick Active Look Badge Indicator */}
+          <div className="flex items-center gap-2 text-[11px] font-mono text-[#8C7853] dark:text-[#C5B492]">
+            {slide.curationBadge ? (
+              <span className="flex items-center gap-1.5 bg-white/70 dark:bg-black/40 px-2.5 py-1 border border-[#DDD6C7] dark:border-[#2C2723]">
+                {slide.curationBadge === 'Trending' ? (
+                  <>
+                    <Flame className="w-3 h-3 text-amber-500 fill-amber-500/30" />
+                    <span className="text-amber-800 dark:text-amber-300 font-bold uppercase tracking-wider text-[10px]">
+                      Trending Runway
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Award className="w-3 h-3 text-[#8C7853]" />
+                    <span className="font-bold uppercase tracking-wider text-[10px]">
+                      Editorial Choice
+                    </span>
+                  </>
+                )}
+                {slide.engagementLabel && (
+                  <span className="hidden md:inline text-[#787268] dark:text-[#9A9388] text-[10px] border-l border-[#DDD6C7] dark:border-[#332E29] pl-1.5">
+                    {slide.engagementLabel}
+                  </span>
+                )}
+              </span>
+            ) : (
+              <span className="text-[10px] text-[#787268] dark:text-[#9A9388] uppercase tracking-wider font-sans-luxury px-2">
+                Haute Couture Archive MMXXVI
+              </span>
+            )}
+          </div>
+        </div>
+
         {/* Lookbook Content Grid */}
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
           
@@ -519,11 +639,45 @@ export const LookbookSection: React.FC<LookbookSectionProps> = ({
                 </div>
               )}
 
-              {/* Top Tag: Look Number & Season */}
-              <div className="absolute top-4 left-4 bg-[#FAF9F5]/90 dark:bg-[#141311]/90 backdrop-blur-md px-3.5 py-1.5 text-xs font-serif-luxury text-[#181715] dark:text-[#FAF8F3] border border-[#E5DFD4] dark:border-[#332E29] shadow-sm flex items-center gap-2">
-                <span className="font-semibold text-[#8C7853]">Look {slide.lookNumber}</span>
-                <span aria-hidden="true" className="opacity-40">·</span>
-                <span>{slide.season}</span>
+              {/* Top Tag: Look Number, Season & Curation Badges */}
+              <div className="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2 max-w-[calc(100%-150px)]">
+                <div className="bg-[#FAF9F5]/90 dark:bg-[#141311]/90 backdrop-blur-md px-3.5 py-1.5 text-xs font-serif-luxury text-[#181715] dark:text-[#FAF8F3] border border-[#E5DFD4] dark:border-[#332E29] shadow-sm flex items-center gap-2">
+                  <span className="font-semibold text-[#8C7853]">Look {slide.lookNumber}</span>
+                  <span aria-hidden="true" className="opacity-40">·</span>
+                  <span className="truncate max-w-[120px] sm:max-w-none">{slide.season}</span>
+                </div>
+
+                {/* Small 'Trending' Badge on High Engagement Images */}
+                {slide.curationBadge === 'Trending' && (
+                  <div className="px-2.5 py-1 bg-[#141311]/95 text-[#F5E6C8] border border-[#D4AF37]/80 backdrop-blur-md flex items-center gap-1.5 shadow-lg animate-fade-in">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+                    </span>
+                    <Flame className="w-3 h-3 text-amber-400 fill-amber-400/30" />
+                    <span className="text-[9px] uppercase tracking-[0.2em] font-mono font-bold text-amber-200">
+                      Trending
+                    </span>
+                    {slide.engagementScore && (
+                      <span className="text-[8.5px] font-mono text-amber-300/80 border-l border-white/20 pl-1.5 hidden sm:inline">
+                        {slide.engagementScore}% Engagement
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Small 'Editorial Choice' Badge */}
+                {slide.curationBadge === 'Editorial Choice' && (
+                  <div className="px-2.5 py-1 bg-[#8C7853] text-[#FAF9F5] border border-[#C5B492] backdrop-blur-md flex items-center gap-1.5 shadow-lg animate-fade-in">
+                    <Award className="w-3 h-3 text-[#FAF9F5]" />
+                    <span className="text-[9px] uppercase tracking-[0.2em] font-mono font-bold tracking-wider">
+                      Editorial Choice
+                    </span>
+                    <span className="text-[8.5px] font-mono text-amber-100/90 border-l border-white/20 pl-1.5 hidden sm:inline">
+                      Atelier Pick
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* TACTILE LUXURY CONTROLS BAR (Top Right) */}
@@ -599,10 +753,29 @@ export const LookbookSection: React.FC<LookbookSectionProps> = ({
                 </button>
               </div>
 
-              {/* Model / Editorial Provenance Tag */}
-              <div className="absolute bottom-4 left-4 max-w-[280px] bg-[#141311]/80 backdrop-blur-md px-3 py-1.5 text-[11px] font-sans-luxury text-[#FAF9F5] border border-white/15">
-                <div className="text-[9px] uppercase tracking-wider text-[#C5B492] font-semibold">Editorial Specs</div>
-                <div className="truncate">{slide.modelSpecs}</div>
+              {/* Model / Editorial Provenance Tag & Interactive Curator Save */}
+              <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 max-w-[calc(100%-190px)]">
+                <div className="bg-[#141311]/85 backdrop-blur-md px-3 py-1.5 text-[11px] font-sans-luxury text-[#FAF9F5] border border-white/15 hidden sm:block truncate">
+                  <div className="text-[9px] uppercase tracking-wider text-[#C5B492] font-semibold">Editorial Specs</div>
+                  <div className="truncate max-w-[180px]">{slide.modelSpecs}</div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleSaveLook(slide.id);
+                  }}
+                  className={`px-2.5 py-1.5 backdrop-blur-md border text-[10px] font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-md ${
+                    savedLookIds.includes(slide.id)
+                      ? 'bg-[#8C7853] text-white border-[#C5B492]'
+                      : 'bg-[#141311]/80 hover:bg-[#141311] text-[#FAF9F5] border-white/20 hover:border-white/50'
+                  }`}
+                  title={savedLookIds.includes(slide.id) ? 'Saved in Curator Vault' : 'Save to Curator Vault'}
+                >
+                  <Heart className={`w-3 h-3 ${savedLookIds.includes(slide.id) ? 'fill-current text-white' : 'text-[#C5B492]'}`} />
+                  <span className="hidden sm:inline">{savedLookIds.includes(slide.id) ? 'Curated' : 'Save'}</span>
+                </button>
               </div>
 
               {/* ============================================================== */}
@@ -732,17 +905,37 @@ export const LookbookSection: React.FC<LookbookSectionProps> = ({
             
             <div className="space-y-6">
               <div>
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
                   <span className="text-xs uppercase tracking-[0.24em] font-sans-luxury text-[#8C7853] dark:text-[#C5B492]">
                     Editorial Silhouette {slide.lookNumber}
                   </span>
                   <span className="text-[10px] font-mono text-[#706B63] dark:text-[#A7A096]">
                     [{slide.season}]
                   </span>
+
+                  {/* Curation Badge Tag */}
+                  {slide.curationBadge === 'Trending' && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30">
+                      <Flame className="w-2.5 h-2.5 text-amber-500 fill-amber-500/30" />
+                      <span className="font-bold">Trending Runway</span>
+                    </span>
+                  )}
+                  {slide.curationBadge === 'Editorial Choice' && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider bg-[#8C7853]/15 text-[#8C7853] dark:text-[#C5B492] border border-[#8C7853]/40">
+                      <Award className="w-2.5 h-2.5 text-[#8C7853]" />
+                      <span className="font-bold">Editorial Choice</span>
+                    </span>
+                  )}
                 </div>
                 <h3 className="text-3xl sm:text-4xl font-serif-luxury text-[#181715] dark:text-[#FAF8F3] leading-tight">
                   {slide.title}
                 </h3>
+                {slide.engagementLabel && (
+                  <p className="text-[11px] font-mono text-[#8C7853] dark:text-[#C5B492] mt-1.5 flex items-center gap-1.5">
+                    <Sparkles className="w-3 h-3 text-[#8C7853]" />
+                    <span>{slide.engagementLabel}</span>
+                  </p>
+                )}
               </div>
 
               <p className="text-sm sm:text-base text-[#605B54] dark:text-[#A7A096] leading-relaxed font-light">
@@ -857,10 +1050,14 @@ export const LookbookSection: React.FC<LookbookSectionProps> = ({
                   className={`p-2.5 text-left border transition-all cursor-pointer relative group/thumb overflow-hidden ${
                     isSelected
                       ? 'border-[#8C7853] bg-[#FAF9F5] dark:bg-[#181614] shadow-md ring-1 ring-[#8C7853]'
+                      : curationFilter === 'editorial' && item.curationBadge !== 'Editorial Choice'
+                      ? 'border-[#DFD9CD] dark:border-[#2B2724] opacity-40 hover:opacity-90'
+                      : curationFilter === 'trending' && item.curationBadge !== 'Trending'
+                      ? 'border-[#DFD9CD] dark:border-[#2B2724] opacity-40 hover:opacity-90'
                       : 'border-[#DFD9CD] dark:border-[#2B2724] hover:bg-[#FAF9F5]/60 dark:hover:bg-[#181614]/60'
                   }`}
                 >
-                  <div className="aspect-[4/3] w-full mb-2 overflow-hidden bg-black/10">
+                  <div className="aspect-[4/3] w-full mb-2 overflow-hidden bg-black/10 relative">
                     <img 
                       src={item.image} 
                       alt={item.title} 
@@ -868,6 +1065,27 @@ export const LookbookSection: React.FC<LookbookSectionProps> = ({
                         isSelected ? 'filter brightness-105' : 'filter brightness-90'
                       }`}
                     />
+
+                    {/* Thumbnail Curation Badge */}
+                    {item.curationBadge === 'Trending' && (
+                      <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-[#141311]/90 text-amber-300 text-[8px] font-mono uppercase tracking-wider border border-amber-500/60 shadow-sm flex items-center gap-1 backdrop-blur-xs">
+                        <Flame className="w-2.5 h-2.5 text-amber-400 fill-amber-400/40" />
+                        <span>Trending</span>
+                      </span>
+                    )}
+                    {item.curationBadge === 'Editorial Choice' && (
+                      <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-[#8C7853] text-white text-[8px] font-mono uppercase tracking-wider border border-[#C5B492] shadow-sm flex items-center gap-1 backdrop-blur-xs">
+                        <Award className="w-2.5 h-2.5 text-white" />
+                        <span>Editorial</span>
+                      </span>
+                    )}
+
+                    {/* Curator Saved Heart Indicator */}
+                    {savedLookIds.includes(item.id) && (
+                      <span className="absolute top-1 right-1 p-1 bg-black/70 text-amber-300 backdrop-blur-xs" title="Curated">
+                        <Heart className="w-2.5 h-2.5 fill-current" />
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center justify-between text-[9px] tracking-widest text-[#8C7853] dark:text-[#C5B492] uppercase font-sans-luxury mb-0.5">
                     <span>Look {item.lookNumber}</span>
@@ -894,9 +1112,25 @@ export const LookbookSection: React.FC<LookbookSectionProps> = ({
         >
           <div className="flex items-center justify-between text-white border-b border-white/20 pb-4">
             <div>
-              <span className="text-xs uppercase tracking-[0.2em] font-sans-luxury text-[#C5B492]">
-                Look {slide.lookNumber} · {slide.season}
-              </span>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs uppercase tracking-[0.2em] font-sans-luxury text-[#C5B492]">
+                  Look {slide.lookNumber} · {slide.season}
+                </span>
+
+                {slide.curationBadge === 'Trending' && (
+                  <span className="px-2 py-0.5 bg-[#141311] text-amber-300 border border-amber-500/70 text-[9px] font-mono uppercase tracking-wider flex items-center gap-1 shadow-sm">
+                    <Flame className="w-2.5 h-2.5 text-amber-400" />
+                    <span>Trending</span>
+                  </span>
+                )}
+
+                {slide.curationBadge === 'Editorial Choice' && (
+                  <span className="px-2 py-0.5 bg-[#8C7853] text-white border border-[#C5B492] text-[9px] font-mono uppercase tracking-wider flex items-center gap-1 shadow-sm">
+                    <Award className="w-2.5 h-2.5 text-white" />
+                    <span>Editorial Choice</span>
+                  </span>
+                )}
+              </div>
               <h3 className="text-xl font-serif-luxury">{slide.title}</h3>
             </div>
             

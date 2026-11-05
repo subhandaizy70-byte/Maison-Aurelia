@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import { consultAlice } from './MaisonStylistBot';
+import { LuxeLogo } from './LuxeLogo';
 
 interface FooterProps {
   onOpenSalonBooking: () => void;
@@ -33,21 +34,7 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-[#2A2724]">
           
           <div className="lg:col-span-6 space-y-4">
-            <div className="flex items-center gap-3">
-              <img
-                src="/assets/images/maison_aurelia_short_logo.jpg"
-                alt="Maison Aurelia Paris Seal"
-                className="w-10 h-10 object-cover rounded border border-[#8C7853]/40 shadow-sm"
-              />
-              <div>
-                <span className="text-2xl lg:text-3xl tracking-[0.24em] uppercase font-serif-luxury text-[#F3F0E6] block">
-                  Maison Aurelia
-                </span>
-                <p className="text-[10px] tracking-[0.2em] uppercase font-sans-luxury text-[#C5B492]">
-                  Place Vendôme · Paris · Fondée en MMXXI
-                </p>
-              </div>
-            </div>
+            <LuxeLogo size="lg" variant="horizontal" />
             <p className="text-sm text-[#A7A096] font-light max-w-md leading-relaxed">
               An architectural haute couture house dedicated to the slow rhythm of the singular craftsperson, noble natural fibers, and timeless silence.
             </p>
@@ -180,7 +167,7 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#706B63] gap-4">
-          <p>© MMXXVI Maison Aurelia. 14 Place Vendôme, 75001 Paris, France. All rights reserved.</p>
+          <p>© MMXXVI LUXE LAYOUT. 14 Place Vendôme, 75001 Paris, France. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <span className="hover:text-[#A7A096] transition-colors cursor-pointer">Confidentiality</span>
             <span aria-hidden="true">·</span>
